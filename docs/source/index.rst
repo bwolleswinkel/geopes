@@ -1,17 +1,16 @@
-Welcome to Lumache's documentation!
+GeoPES documentation
 ===================================
 
-**Lumache** (/lu'make/) is a Python library for cooks and food lovers
-that creates recipes mixing random ingredients.
-It pulls data from the `Open Food Facts database <https://world.openfoodfacts.org/>`_
-and offers a *simple* and *intuitive* API.
+GeoPES is a Python library that implements polytopes, ellipsoids, and subspaces and 
+defines mathematical operations on them. The package is designed to work well with control
+applications in mind. The coding itself is made to feel as *pythonic* as possible.
 
 Check out the :doc:`usage` section for further information, including
 how to :ref:`installation` the project.
 
 .. note::
 
-   This project is under active development.
+   This project is a work-in-progress.
 
 Contents
 --------
