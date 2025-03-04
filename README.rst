@@ -1,4 +1,4 @@
-GeOoPES package documentation
+GeoPES package documentation
 =============================
 
 Link to the documentation:
