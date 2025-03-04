@@ -5,3 +5,9 @@ Just like many other packages, GeoPES uses some conventions. We stick to the con
 
    for vert in poly.verts:
       print(vert)
+
+-----------
+Time-series
+-----------
+
+To make matters a bit worse, ...
