@@ -5,9 +5,9 @@ GeoPES is a Python library that implements polytopes, ellipsoids, and subspaces 
 defines mathematical operations on them. The package is designed to work well with control
 applications in mind. The coding itself is made to feel as *pythonic* as possible.
 
-==========================
-Intuitive pythonic methods
-==========================
+======================
+Numeric type emulation
+======================
 
 The package is easy to use and makes extensive use of the operators :code:`+`, :code:`*`, :code:`in`, :code:`@`, etc.::
 
@@ -30,7 +30,17 @@ The package is easy to use and makes extensive use of the operators :code:`+`, :
    D, alpha = Z.copy(), 0.9
    for _ in range(3):
       D = Z & (alpha * (A @ D))  # Z ∩ (α * A D)
-      
+
+===========
+Conventions
+===========
+
+Just like many other packages, GeoPES uses some conventions. We stick to the conventions from Numpy, which uses **row-major ordering**. This means that, e.g., a list of vertices :code:`verts` with :math:`m` vertices :math:`\mathbf{x} \in \mathbb{R}^{n}` will be a Numpy array such that :code:`verts.shape == (m, n)`. This is so we can use the following idiom:::
+
+   for vert in poly.verts:
+      print(vert)
+
+
 Check out the :doc:`usage` section for further information, including
 how to :ref:`installation` the project.
 
