@@ -17,7 +17,13 @@ We can do visualizations of polytopes, ellipsoids, and subspaces in :math:`n \in
     # Plot the polytope
     fig, ax = P.plot()
     fig.suptitle("Plotting a polytope")
-    plt.show() 
+    plt.show()
+
+**Result:**
+
+.. image:: ../images/plot_polytope.png
+   :alt: Example of a 3D polytope plot
+   :align: center
 
 Robust MPC
 ----------
