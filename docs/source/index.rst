@@ -45,6 +45,7 @@ Contents
 .. toctree::
 
    usage
+   functionalities
    api
    conventions
    examples
