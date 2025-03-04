@@ -48,4 +48,3 @@ Contents
    api
    conventions
    examples
-      control
