@@ -47,3 +47,5 @@ Contents
    usage
    api
    conventions
+   examples
+      control
