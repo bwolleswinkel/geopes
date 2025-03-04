@@ -21,7 +21,7 @@ We can do visualizations of polytopes, ellipsoids, and subspaces in :math:`n \in
 
 **Result:**
 
-.. image:: ../images/plot_polytope.png
+.. image:: images/plot_polytope.png
    :alt: Example of a 3D polytope plot
    :align: center
 
