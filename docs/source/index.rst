@@ -20,8 +20,12 @@ The package is easy to use and makes extensive use of the operators :code:`+`, :
 
    # Perform some operation
    Z = -W  # 'Invertion', i.e. Z = {-w | w ∈ W}
-   Y = W + Z  # Minkowski sum 
+   Y = W + Z  # Minkowski sum W ⊕ Z = {w + z | w ∈ W, z ∈ Z}
+   Y = W - Z  # Pontryagin difference W ⊖ Z
    Y = g + Y  # Addition with vectors is also supported
+   Y = 1.1 * Y  # Scaling
+   Y = A @ Y  # Linear transformation
+   Y = W & Z  # Intersection W ∩ Z
 
    D, alpha = Z.copy(), 0.9
    for _ in range(3):
