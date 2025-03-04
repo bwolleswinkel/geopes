@@ -64,10 +64,11 @@ class Polytope:
         self._b = b
         self._verts = None
         self._cheb_c = None
-        self._cheb_c = None
+        self._cheb_r = None
         self._vol = None
         self.n = A.shape[1]  ### FIXME: Placeholder
         self.min_rep = None 
+        self.is_empty = False  ### NOTE: A polytope can have zero volume but still be non-empty
 
     @property
     def A(self):
@@ -143,6 +144,58 @@ class Polytope:
             case _:
                 raise TypeError("The other object is not a Polytope or Numpy array.")
             
+    def __bool__(self) -> bool:
+        """Implements the magic method for the `bool` operator as the non-empty operator.
+
+        ### FIXME: This is also used in the package 'polytope' to check if the polytope has zero volume: however, I don't actually know if this is a good idea? As we already have the attribute `is_empty` for this purpose. If we implement this, we should also implement the `__len__` method, and the `__int__` method, ut again, this might lead to ambiguity.
+        
+        Returns
+        -------
+        bool
+            True if the polytope has non-zero volume, False otherwise.
+        
+        """
+        return self.vol > 0
+            
+    def __contains__(self, point: ArrayLike) -> bool:
+        """Implements the magic method for the `in` operator as the `point` inclusion operator x ∈ P.
+        
+        Parameters
+        ----------
+        point : ArrayLike
+            The point to be checked for inclusion.
+
+        Returns
+        -------
+        bool
+            True if the point is in the polytope, False otherwise.
+
+        Raises
+        ------
+        DimensionError
+            If the dimensions of the point does not match the polytope.
+
+        """
+        raise NotImplementedError
+            
+    def __le__(self, other: Polytope) -> bool:
+        """Implements the magic method `<=` as the subset operator P ⊆ Q.
+
+        ### FIXME: Should we also add `__lt__` and `__ge__` and `__gt__`?
+        
+        Parameters
+        ----------
+        other : Polytope
+            The other polytope to be compared with.
+            
+        Returns
+        -------
+        bool
+            True if the polytope is a subset of the other polytope, False otherwise.
+            
+        """
+        return is_subset(self, other)
+    
     def __str__(self) -> str:
         """Pretty print the polytope."""
         return f"{self.__class__.__name__} in ℝ^{self.n}"  ### FIXME: Placeholder
@@ -294,6 +347,33 @@ def hrepr(poly: Polytope) -> tuple:
     raise NotImplementedError
 
 
+def scale(poly: Polytope, factor: float, center: str = 'origin') -> Polytope:
+    """Scale the polytope P = `poly` by a factor β = `factor` such that W = {β * x ∈ ℝ^n | x ∈ P}. Note that by default, the scaling is performed around the origin.
+    
+    Parameters
+    ----------
+    poly : Polytope
+        The polytope to be scaled.
+    factor : float
+        The scaling factor.
+    origin : str
+        The origin of the scaling. Default is 'origin'.
+    
+    Returns
+    -------
+    poly : Polytope
+        The scaled polytope.
+    
+    """
+    match center:
+        case 'origin':
+            raise NotImplementedError
+        case 'cheb_c':
+            raise NotImplementedError
+        case _:
+            raise ValueError(f"Unrecognized center '{center}'")
+
+
 def extreme(poly: Polytope) -> ArrayLike:
     """Finds the extreme points of a polytope `poly`, i.e., the vertices `verts` of the polytope.
 
@@ -374,6 +454,13 @@ def intersection(poly_1: Polytope, poly_2: Polytope) -> Polytope:
 
 def projection(points: Polytope | ArrayLike, proj: list | Subspace, keep_dims: bool = True) -> Polytope:
     """Compute the projection of a polytope or vector `points` onto a subspace `proj` as T = Proj(V, z).
+    
+    """
+    raise NotImplementedError
+
+
+def is_subset(poly_1: Polytope, poly_2: Polytope) -> bool:
+    """Check if the polytope `poly_1` is a subset of the polytope `poly_2`, i.e., P ⊆ Q.
     
     """
     raise NotImplementedError
