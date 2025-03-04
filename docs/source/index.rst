@@ -9,7 +9,7 @@ applications in mind. The coding itself is made to feel as *pythonic* as possibl
 Intuitive pythonic methods
 ==========================
 
-The package is easy to use and makes extensive use of the operators `+`, `*`, `in`, `@`, etc.::
+The package is easy to use and makes extensive use of the operators :code:`+`, `*`, `in`, `@`, etc.::
 
    import geopes as geo
    impost numpy as np
