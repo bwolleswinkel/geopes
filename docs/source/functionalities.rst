@@ -18,4 +18,4 @@ Chebyshev center
 
 Similar to the ``polytope`` package, we can compute the Chebyshev center by solving the linear program given by
 
-.. math:: \max_{r, \boldsymbol{c}} r \quad \text{subject to} \quad \boldsymbol{a}_{i} \boldsymbol{c} + \Vert \boldsymbol{a}_{i} \Vert \cdot r \leq b_{i}, \forall i.
+.. math:: \max_{r, \boldsymbol{c}} r \quad \text{subject to} \quad \boldsymbol{a}_{i} \boldsymbol{c} + \Vert \boldsymbol{a}_{i} \Vert \cdot r \leq b_{i}, r \geq 0, \forall i.
