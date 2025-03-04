@@ -18,7 +18,7 @@ class DimensionError(Exception):
     
     """
 
-    def __init__(self, message: str) -> DimensionError:
+    def __init__(self, message: str):
         """Constructor for the exception.
 
         Attributes
@@ -43,7 +43,7 @@ class Polytope:
     
     """
 
-    def __init__(self, A: ArrayLike = None, b: ArrayLike = None) -> Polytope:
+    def __init__(self, A: ArrayLike = None, b: ArrayLike = None):
         """Initialize a Polytope object (see class for description) based on either a 
         H-representation or a V-representation.
 
@@ -167,7 +167,7 @@ class Polytope:
 class Zonotope(Polytope):
     """The zonotope class which implements a zonotope `zono` = {c + Gz ∈ ℝ^n | ‖z‖_∞ ≤ 1}."""
 
-    def __init__(self, G: ArrayLike, c: ArrayLike) -> Zonotope:
+    def __init__(self, G: ArrayLike, c: ArrayLike):
         """Construct a zonotope with generator matrix `G` and center `c`.
         
         Parameters
@@ -384,7 +384,7 @@ class Subspace():
     
     """
 
-    def __init__(self, E: ArrayLike) -> Subspace:
+    def __init__(self, E: ArrayLike):
         self.E = E
 
     def reduce(self) -> Subspace:
@@ -407,7 +407,7 @@ class Ellipsoid():
     
     """
 
-    def __init__(self, P: ArrayLike, c: ArrayLike, alpha: float = 1) -> Ellipsoid:
+    def __init__(self, P: ArrayLike, c: ArrayLike, alpha: float = 1):
         """Constructor for the ellipsoid class
         
         Parameters
@@ -430,7 +430,7 @@ class Sphere(Ellipsoid):
     
     """
 
-    def __init__(self, c: ArrayLike, radius: float = 1) -> Sphere:
+    def __init__(self, c: ArrayLike, radius: float = 1):
         """Construct a sphere with center `c` and radius `radius`.
         
         Parameters
