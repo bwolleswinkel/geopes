@@ -22,4 +22,4 @@ Similar to the ``polytope`` package, we can compute the Chebyshev center by solv
 
 where 
 
-.. math:: \boldsymbol{A} = \begin{bmatrix} -\!\!\!-\!\!\!- & \boldsymbol{a}_{1}^{\mathsf{T}} & -\!\!\!-\!\!\!- \\ & \vdots & \\ -\!\!\!-\!\!\!- & \boldsymbol{a}_{m}^{\mathsf{T}} & -\!\!\!-\!\!\!- \end{bmatrix} \quad \text{and} \quad \boldsymbol{b} = \begin{bmatrix} b_{1} \\ \vdots \\ b_{m} \end{bmatrix}.
+.. math:: \boldsymbol{A} = \begin{bmatrix} \rule[.5ex]{2.5ex}{0.5pt} & \boldsymbol{a}_{1}^{\mathsf{T}} & \rule[.5ex]{2.5ex}{0.5pt} \\ & \vdots & \\ -\!\!\!-\!\!\!- & \boldsymbol{a}_{m}^{\mathsf{T}} & -\!\!\!-\!\!\!- \end{bmatrix} \quad \text{and} \quad \boldsymbol{b} = \begin{bmatrix} b_{1} \\ \vdots \\ b_{m} \end{bmatrix}.
