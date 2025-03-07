@@ -14,4 +14,4 @@ To make matters a bit worse, for timeseries data, such as
 
 .. math:: \boldsymbol{X} = \begin{bmatrix} \vert & \vert & & \vert \\ \boldsymbol{x}_{0} & \boldsymbol{x}_{1} & \cdots & \boldsymbol{x}_{N} \\  \vert & \vert & & \vert \end{bmatrix},
 
-we use **column-major ordering**, as this is the convention in the Python ``control`` libary.
+we use **column-major ordering**, as this is the convention in the Python ``control`` library.
