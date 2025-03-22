@@ -9,8 +9,20 @@
 ### TODO: Check out d(ouble)under/numerical Python methods "3.3.8. Emulating numeric types", https://docs.python.org/3/reference/datamodel.html
 ### TODO: Check out the repository "Remote Tube-based MPC for Tracking Over Lossy Networks" (which has multiple implementations of MRPI sets), https://github.com/EricssonResearch/Robust-Tracking-MPC-over-Lossy-Networks/blob/main/src/LinearMPCOverNetworks/utils_polytope.py
 ### TODO: Check out documentation 'Standard operators as functions', https://docs.python.org/3/library/operator.html
+### TODO: Check out `pycvxset: A Python package for convex set manipulation`, https://arxiv.org/html/2410.11430v1
+### TODO: Check out `MPT3` toolbox, https://www.mpt3.org/pmwiki.php/Main/HowTos
+### TODO: Check out `PnPMPC-TOOLBOX', from `http://sisdin.unipv.it/pnpmpc/pnpmpc.php'
+    - Check out e_MRPI to go from a Polytopic to an outer, simpler approximation
+### TODO: Check out `Basic Properties of Convex Polytopes, Henk Martin
+### TODO: Check out `contrained zonotopes', and `hybrid zonzotpes' (zonoLAB), https://github.com/ESCL-at-UTD/zonoLAB 
+### TODO: Check out `Ellipsotopes', https://ieeexplore-ieee-org.tudelft.idm.oclc.org/stamp/stamp.jsp?arnumber=9832489
+
+### TODO: Implement `Polyhedra' as a base class, and let `Polytope'` inherits from it.
+### TODO: Implement `Cones' (also for ETC), https://en.wikipedia.org/wiki/Convex_cone
+
 """
 
+import copy
 from __future__ import annotations
 from typing import Callable
 import warnings
@@ -51,12 +63,14 @@ class Polytope:
             The vector g ∈ ℝ^p in the H-representation {x ∈ ℝ^n | Fx ≤ g}.
         
         """
-        ### FIXME: This is not implemented yet
         self.H_repr = True
         self.V_repr = False
         self._F = F
         self._g = g
+        self._F_eq = None
+        self._g_eq = None
         self._verts = None
+        ### FIXME: Also look at the 'centroid', which is different from the Chebyshev center (see `pytope`)
         self._cheb_c = None
         self._cheb_r = None
         self._vol = None
@@ -189,6 +203,13 @@ class Polytope:
 
         """
         raise NotImplementedError
+    
+    def __hash__(self) -> int:
+        """Implements the magic method for the hash operator `hash` as the hash of the polytope."""
+        ### FIXME: This is directly from `pypolycontains`
+        if self.hash_value is None:
+            self.hash_value = hash(str(np.hstack([self.H, self.h])))
+        return self.hash_value
     
     def __int__(self) -> int:
         """Implements the magic method for the `int` operator as the number of vertices of the polytope.
@@ -336,7 +357,7 @@ class Polytope:
         """
         match type:
             case 'deepcopy':
-                raise NotImplementedError
+                raise NotImplementedError   ### FIXME: Here, we actually need to implement HOW the deepcopying is done...
             case 'copy':
                 return self
             case _:
@@ -414,6 +435,10 @@ class Cube(Polytope):
 
 def verts_to_poly(verts: ArrayLike) -> Polytope:
     """Convert vertices `verts` to a polytope.
+
+    ### FIXME: Should these be class methods instead? I.e., `@classmethod` and move them to `class Polytope`, such that we can call `geo.Polytope().verts_to_poly(verts)`? Seems a bit more verbose, right? But again, this is really a different constructor method...
+
+    ### FIXME: In the above cause, we should consider renaming `geo.Polytope().from_verts(verts)` instead, right?
     
     Parameters
     ----------
@@ -481,6 +506,8 @@ def norm_to_poly(norm: float, n: int, p: float | str = 'inf') -> Polytope | Elli
 
 def vrepr(poly: Polytope) -> ArrayLike:
     """Convert a polytope `poly` from H-representation to V-representation.
+
+    ### FIXME: "However, the computational step from one of the main theorem’s descriptions of polytopes to the other—a “convex hull computation”—is often far from trivial. Essentially, there are three types of algorithms available: inductive algorithms (inserting vertices, using a so-called beneath-beyond technique), projection algorithms (known as Fourier–Motzkin elimination or double description algorithms), and reverse search methods (as introduced by Avis and Fukuda [AF92]). For explicit computations one can use public domain codes as the software package polymake [GJ00] that we use here, or sage [SJ05]; see also Chapters 26 and 67." (from "Basic Properties of Convex Polytopes", Henk Martin)
     
     Parameters
     ----------
@@ -536,6 +563,28 @@ def power(poly: Polytope, power: int) -> Cube:
     >>> print(repr(P))
     Cube(A.shape=(6, 3), b.shape=(6,), verts.shape=(8, 3), n=3)
     
+    """
+    raise NotImplementedError
+
+
+def translation(poly: Polytope, x: ArrayLike) -> Polytope:
+    """Translate the polytope `poly` by a vector `x`, i.e., P = {x + y ∈ ℝ^n | y ∈ P}.
+
+    ### FIXME: Naming convention: should it be 'translate' or 'translation'? And should it be 'intersection' or 'intersect'?
+    
+    """
+    raise NotImplementedError
+
+
+def rotation(poly: Polytope, angles: ArrayLike, center: str = 'origin') -> Polytope:
+    """Rotated a polytope by angle θ_1, θ_2, ..., θ_n  = `angle` around the origin.
+
+    ### FIXME: Maybe we should make this an `in_place` operation, as it's not really a new object? So add it as a method to the class?
+
+    ### FIXME: Also check out the Givens rotation matrix, as `givens_rotation_matrix` in the package `polytope`.
+
+    ### TODO: Make a helper method in `utils` which takes in a set of angles, and then returns a rotation matrix
+
     """
     raise NotImplementedError
 
@@ -598,6 +647,30 @@ def extreme(poly: Polytope) -> ArrayLike:
     raise NotImplementedError
 
 
+def normalize():
+    """### FIXME: I don't know what this should do, see `MPT3` package for reference. https://people.ee.ethz.ch/~mpt/2/docs/refguide/mpt/@polytope/normalize.html
+    
+    """
+    raise NotImplementedError
+
+
+def distance(poly_1: Polytope, poly_2: Polytope, type: str = 'shortest') -> float:
+    """Compute the Hausdorff distance between two polytopes `poly_1` and `poly_2`. This is the greatest of all the distances from a point in one set to the closest point in the other set.
+
+    ### FIXME: Do we also want the shortest distance? Or the average distance? Seems like useful metrics, right? Look at `Hausdorff_distance` and `distance_polytopes` in the package `pypolycontains`.
+
+    """
+    match type:
+        case 'shortest':
+            raise NotImplementedError
+        case 'hausdorff':
+            raise NotImplementedError
+        case 'average':
+            raise NotImplementedErrorf
+        case _:
+            raise ValueError(f"Unrecognized distance type '{type}'")
+
+
 def enum_int_points(poly: Polytope) -> ArrayLike:
     """Enumerate the integer points in a polytope `poly`, i.e., a lattice.
     
@@ -609,6 +682,8 @@ def enum_int_points(poly: Polytope) -> ArrayLike:
 
 def convex_hull(points: ArrayLike) -> ArrayLike:
     """Compute the convex hull of a set of points `points`.
+
+    ### FIXME: Instead of an argument `points`, should it not also be `poly_1` and `poly_2`?
     
     Parameters
     ----------
@@ -626,6 +701,8 @@ def convex_hull(points: ArrayLike) -> ArrayLike:
 
 def support(poly: Polytope, direction: ArrayLike) -> ArrayLike:
     """Compute the support function of a polytope `poly` in a given direction `direction`.
+
+    ### FIXME: See also `support` from `polytope` and `pytope` packages.
 
     Parameters
     ----------
@@ -662,6 +739,87 @@ def mink_sum(poly_1: Polytope, poly_2: Polytope) -> Polytope:
     poly : Polytope
         The Minkowski sum of the two polytopes.
     
+    """
+    raise NotImplementedError
+
+
+def blaschke_sum(poly_1: Polytope, poly_2: Polytope) -> Polytope:
+    """Compute the Blaschke sum `poly_1` # `poly_2` of two polytopes.
+
+    ### FIXME: I don't know what this actually is.
+    
+    Parameters
+    ----------
+    poly_1 : Polytope
+        The first polytope.
+    poly_2 : Polytope
+        The second polytope.
+
+    Returns
+    -------
+    poly : Polytope
+        The Blaschke sum of the two polytopes.
+
+    References
+    ----------
+    [1] B. Grünbaum, V. Kaibel, V. Klee, G. M. Ziegler. (2003). "Convex Polytopes," Graduate Texts in Mathematics.
+
+    """
+    raise NotImplementedError
+
+
+def subdirect_sum(poly_1: Polytope, poly_2: Polytope) -> Polytope:
+    """Compute the subdirect sum `poly_1` ⊞ `poly_2` of two polytopes.
+
+    ### FIXME: From "Basic Properties of Convex Polytopes", Henk Martin, I don't know what this actually is.
+
+    Parameters
+    ----------
+    poly_1 : Polytope
+        The first polytope.
+    poly_2 : Polytope
+        The second polytope.
+
+    Returns
+    -------
+    poly : Polytope
+        The subdirect sum of the two polytopes.
+    """
+    raise NotImplementedError
+
+
+def direct_sum(poly_1: Polytope, poly_2: Polytope) -> Polytope:
+    """Compute the direct sum `poly_1` + `poly_2` of two polytopes.
+
+    ### FIXME: From "Basic Properties of Convex Polytopes", Henk Martin, I don't know what this actually is.
+
+    Parameters
+    ----------
+    poly_1 : Polytope
+        The first polytope.
+    poly_2 : Polytope
+        The second polytope.
+
+    Returns
+    -------
+    poly : Polytope
+        The direct sum of the two polytopes.
+    """
+    raise NotImplementedError
+
+
+def mink_diff(poly_1: Polytope, poly_2: Polytope) -> Polytope:
+    """Compute the Minkowski difference `poly_1` ⊖ `poly_2` of two polytopes.
+
+    ### FIXME: Check that this name is actually correct
+    
+    Parameters
+    ----------
+    poly_1 : Polytope
+        The first polytope.
+    poly_2 : Polytope
+        The second polytope.
+
     """
     raise NotImplementedError
 
@@ -705,8 +863,61 @@ def intersection(poly_1: Polytope, poly_2: Polytope) -> Polytope:
     raise NotImplementedError
 
 
+def convex_hull(V: ArrayLike, method: str = 'scipy') -> ArrayLike:
+    """Compute the convex hull of a set of points `V`.
+
+    Parameters
+    ----------
+    V : ArrayLike
+        A m x n array, where n is the dimension of the vector space and m is the number of points.
+    method : str, default: 'scipy', options: {'scipy', 'cvxpy'}  ### FIXME: How to specify the options in the docstring?
+        The method to compute the convex hull. Default is 'scipy'.
+
+    Returns
+    -------
+    hull : ArrayLike
+        The convex hull of the points.
+    
+    """
+    raise NotImplementedError
+
+
+def convex_union(poly_1: Polytope, poly_2: Polytope) -> Polytope:
+    """Return the 'union' of two polytopes, i.e., the smallest polytope that contains both `poly_1` and `poly_2`. Note that a regular union `poly_1 ∪ poly_2` is possibly non-convex, and if so does not return a polytope.
+    
+    """
+    raise NotImplementedError
+
+
+def convex_set_diff(poly_1: Polytope, poly_2: Polytope, method: str = 'max_volume') -> Polytope:
+    """Return the 'set difference' of two polytopes `poly_1` \ `poly_2` = {x ∈ ℝ^n | x ∈ poly_1, x ∉ poly_2}, making sure this difference is convex.
+
+    ### FIXME: This method might be really wonky, and a bit contrived, so we need to think if this makes any mathematical sense at all...
+    
+    """
+    match method:
+        case 'max_volume': 
+            # NOTE: What this should do, is that it adds one hyperplane to the polytope poly_1, which intesect the most pertruding point of poly_2, and then optimize the normal vector (i.e., the angle) to maximize the volume of the resulting polytope
+            raise NotImplementedError
+        case 'exclude_verts':
+            # NOTE: This should be a much more simple method, where we first of all exclude all the vertices of poly_1 which are inside poly_2, and then we keep removing vertices of poly_1 (which are closest to poly_2) until we have a convex polytope
+            raise NotImplementedError
+        case 'normal_to_cheb_c':
+            # NOTE: Here, we also add on extra half plane constraint, but the normal vector is fixed as pointing to the center of the polygon; this could, in many cases, be the most simple and efficient method which also gives 'large' volume
+            raise NotImplementedError
+        case 'extend_half_spaces':
+            # NOTE: In this method, we take all the halfspaces of poly_2 that 'run through' poly_1, and add the inverse inequality to poly_1, and then out of all these, we select the one with maximal volume
+            raise NotImplementedError
+        case _:
+            raise ValueError(f"Unrecognized method '{method}'")
+
+
 def projection(points: Polytope | ArrayLike, proj: list | Subspace, keep_dims: bool = True) -> Polytope:
     """Compute the projection of a polytope or vector `points` onto a subspace `proj` as T = Proj(V, z).
+
+    ### FIXME: Look at `ray_shooting_hyperplanes` in the package `pypolycontains` for inspiration.
+
+    ### FIXME: In `MPT3 Toolbox`, they also talk about projecting a point on the k-th facet (which is probably the fase?) of a polyhedron, https://www.mpt3.org/pmwiki.php/Main/HowTos
     
     """
     raise NotImplementedError
@@ -714,6 +925,54 @@ def projection(points: Polytope | ArrayLike, proj: list | Subspace, keep_dims: b
 
 def is_subset(poly_1: Polytope, poly_2: Polytope) -> bool:
     """Check if the polytope `poly_1` is a subset of the polytope `poly_2`, i.e., P ⊆ Q.
+    
+    """
+    raise NotImplementedError
+
+
+def comp_cheb_ball(poly: Polytope) -> Sphere:
+    """Compute the Chebyshev ball of a polytope `poly`.
+
+    ### FIXME: Maybe make this a class-bound method?
+    
+    """
+    raise NotImplementedError
+
+
+def envelope(poly: Polytope) -> Polytope:
+    """### FIXME: I don't know what this should do, see `polytope` package for reference.
+
+    """
+    raise NotImplementedError
+
+
+def gen_rand_poly(n: int, n_verts: int, method: str = 'rand_hull') -> Polytope:
+    """Generate a random polytope based on the method selected.
+    
+    Parameters
+    ----------
+    n : int
+        The dimension of the vector space.
+    n_verts : int
+        The number of vertices of the polytope.
+    method : str, options: ['rand_hull', 'rand_cube', 'rand_ball']   ### FIXME: How to specify the 'type-hinting' in the docstring?
+        The method to generate the polytope.
+
+    """
+    raise NotImplementedError
+
+
+def regular_poly(n: int, schlafli_symbols: tuple) -> Polytope:
+    """Generate a regular polytope based on the Schläfli symbols. The polytope is centered around the Chebyshev center.
+    
+    """
+    raise NotImplementedError
+
+
+def is_adjacent(poly_1: Polytope, poly_2: Polytope) -> bool:
+    """Check if two polytopes are adjacent, i.e., if they share a common facet.
+
+    ### FIXME: Directly copied from `polytope` package
     
     """
     raise NotImplementedError
@@ -739,6 +998,28 @@ class Subspace():
         
         """
         return Subspace(sp.linalg.null_space(self.basis.T).T)
+    
+    def copy(self, type: str = 'deepcopy') -> Subspace:
+        """Copies the subspace.
+        
+        Parameters
+        ----------
+        type : str
+            The type of copy. Default is 'deepcopy'.
+        
+        Returns
+        -------
+        subs : Subspace
+            A copy of `self`.
+        
+        """
+        match type:
+            case 'deepcopy':
+                return copy.deepcopy(self)
+            case 'copy':
+                return self
+            case _:
+                raise ValueError(f"Unrecognized copy type '{type}'")
     
     def __mod__(self, other: Subspace) -> QuotientSpace:
         """Implements the magic method `%` as the quotient space V / W of two subspaces V = `self` and W = `other`. Note that this requires that W ⊆ V.
@@ -882,6 +1163,20 @@ class Ellipsoid():
         ### FIXME: Why is this the one that works? It seems to me that Q = Q / a should work, but it doesn't? Why does the sqrt mess thing up?
         lb, ub = self.c - self.a * np.sqrt(np.diag(P_inv)), self.c + self.a * np.sqrt(np.diag(P_inv))
         return bounds_to_poly(lb, ub)
+    
+
+    def sample(self, seed: int = None, in_ellps: bool = True) -> ArrayLike:
+        """Sample a point from the ellipsoid according to the normal distribution.
+
+        Parameters
+        ----------
+        seed : int
+            The random seed.
+        in_ellps : bool
+            Whether to sample from inside the ellipsoid. Default is True. If False, we do not use the truncated normal distribution, but the normal distribution.
+        
+        """
+        raise NotImplementedError
 
 
 class Sphere(Ellipsoid):
@@ -904,7 +1199,7 @@ class Sphere(Ellipsoid):
         super().__init__(np.eye(c.shape[0]), c, radius)
 
 
-def normal_to_elps(mean: ArrayLike, Sigma: ArrayLike, a: float) -> Ellipsoid:
+def normal_to_ellps(mean: ArrayLike, Sigma: ArrayLike, a: float) -> Ellipsoid:
     """Convert a normal distribution N(`mean`, `Sigma`) to an ellipsoid of `a` times the standard deviation.
     
     Parameters
@@ -918,7 +1213,7 @@ def normal_to_elps(mean: ArrayLike, Sigma: ArrayLike, a: float) -> Ellipsoid:
 
     Returns
     -------
-    elps: Ellipsoid
+    ellps: Ellipsoid
         The ellipsoid representing the normal distribution.
 
     Examples
@@ -930,11 +1225,55 @@ def normal_to_elps(mean: ArrayLike, Sigma: ArrayLike, a: float) -> Ellipsoid:
     raise NotImplementedError
 
 
+def ellps_to_poly(ellps: Ellipsoid) -> Polytope:
+    """Create an inner or outer polytypic approximation of an ellipsoid `ellps`.
+
+    ### FIXME: Look at "Algorithms for Polyhedral Approximation of Multidimensional Ellipsoids", https://www-sciencedirect-com.tudelft.idm.oclc.org/science/article/pii/S0196677499910313
+    ### FIXME: Look at "Ellipsotopes: Uniting Ellipsoids and Zonotopes for Reachability Analysis and Fault Detection", https://arxiv.org/pdf/2108.01750
+    
+    """
+    raise NotImplementedError
+
+
+def poly_to_ellps(poly: Polytope) -> Ellipsoid:
+    """Create an inner or outer ellipsoidal approximation of a polytope `poly`.
+
+    ### FIXME: Look at "MOSEK, 11.6 Inner and outer Löwner-John Ellipsoids", https://docs.mosek.com/latest/dotnetfusion/case-studies-ellipsoids.html
+    ### FIXME: Look at this note, https://www.mi.uni-koeln.de/opt/wp-content/uploads/2015/12/CO2015-16-VL19.pdf
+    
+    """
+    raise NotImplementedError
+
+
+def lyap_to_ellps(A: ArrayLike, Q: ArrayLike) -> Ellipsoid:
+    """Convert a Lyapunov function V(x) = x^T Q x to an ellipsoid.
+
+    ### FIXME: This is just a placeholder, but do something with ellipsoids and level sets of Lyapunov functions
+
+    """
+    raise NotImplementedError
+
+
+def actuator_sat_reach(A: ArrayLike, B: ArrayLike, U: Polytope) -> Ellipsoid:
+    """Calculate an under-approximation of the maximal reachable set of a linear system with actuator saturation.
+    
+    References
+    ---------
+    [1] S.H. Kafash, J. Giraldo, C. Murguia, A.A. Cardenas, J. Ruths. (2018, June). "Constraining Attacker Capabilities Through Actuator Saturation," 2018 Annual American Control Conference (ACC), Milwaukee, USA, pp. 986-991
+
+    """
+    raise NotImplementedError
+
+
 # ------------ CONTROL -------------
 
 
 def mrpi(A: ArrayLike, B: ArrayLike, K: ArrayLike, W: Polytope, method: str = 'lazar', s_max: int = 10) -> Polytope:
     """Compute the minimal robustly positive invariant set F_∞ = ⊕_{i=0}^{∞} (A + B K)^i W. See also [1, Algorithm 1].
+
+    ### FIXME: Also look at `eps_MRPI` in the package `pytope`. There's several algorithms there
+
+    ### FIXME: Also look at `calculate_maximum_admissible_output_set` from `pytope`, from "LinearSystemswith StateandControlConstraints: The TheoryandApplicationof Maximal OutputAdmissible Sets"
 
     References
     ----------
