@@ -74,6 +74,7 @@ class Polytope:
         self._cheb_c = None
         self._cheb_r = None
         self._vol = None
+        self._mass_c = None   ### FIXME: Center of mass of the polytope
         self.n = F.shape[1]  ### FIXME: Placeholder
         self.min_repr = None 
         self.is_empty = False  ### NOTE: A polytope can have zero volume but still be non-empty
@@ -616,6 +617,21 @@ def scale(poly: Polytope, factor: float, center: str = 'origin') -> Polytope:
             raise NotImplementedError
         case _:
             raise ValueError(f"Unrecognized center '{center}'")
+        
+
+def cut_with_hyperplane(poly: Polytope, plane: None) -> tuple[Polytope, Polytope]:
+    """Cuts a polytope with a hyperplane, resulting in two polytopes
+    
+    ### FIXME: 
+    """
+    return NotImplementedError
+
+
+def find_longest_ray(poly: Polytope, center: str = 'mass') -> ArrayLike:
+    """Find the longest ray in a polytope `poly`.
+    
+    """
+    raise NotImplementedError
         
 
 def mat_mum(array: ArrayLike, poly: Polytope) -> Polytope:
@@ -1319,6 +1335,13 @@ def mpis(A: ArrayLike, X: Polytope, iter_max: int = 10) -> Polytope:
     return V
 
 
+def reach_in_n_steps(A: ArrayLike, B: ArrayLike, X: Polytope, U: Polytope, n: int) -> Polytope:
+    """Compute the reachable set of a linear system in `n` steps.
+
+    """
+    raise NotImplementedError
+
+
 def feas_reg_mpc() -> Polytope:
     """Compute the feasible region of a model predictive control (MPC) problem.
     
@@ -1420,6 +1443,8 @@ def bisect(func: Callable, range: tuple, args: tuple) -> float:
 
 def pre_img(A: ArrayLike) -> ArrayLike:
     """Compute the pre-image of a matrix `A`. This is the inverse of the matrix if invertible, and the combination of the pseudo-inverse and the null-space if not.
+
+    ### FIXME: Maybe we should make this a function `inv_map(A, V)` instead?
     
     """
     raise NotImplementedError
