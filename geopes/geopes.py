@@ -19,6 +19,35 @@
 
 ### TODO: Implement `Polyhedra' as a base class, and let `Polytope'` inherits from it.
 ### TODO: Implement `Cones' (also for ETC), https://en.wikipedia.org/wiki/Convex_cone
+    - Gabriel: Hmm might be tricky, as there's many definition; he used quadratic cones, of the form x^T Q x < 0
+    - Gabriel: I actually have some checks for (quadratic) cones, might be interesting to look at
+
+### TODO: Check out `Ellipsoidal Calculus for Estimation and Control', https://link-springer-com.tudelft.idm.oclc.org/book/9780817636999
+### TODO: Check out `Ellipsoidal Toolbox (ET)', https://www.mathworks.com/matlabcentral/fileexchange/21936-ellipsoidal-toolbox-et
+
+### TODO: Gabriel: Check ellipsoidal containment with LMIs
+### TODO: Allow for ellipsoids to be degenerate (also INFINITE measure, so ellipsoid), cite Ross's paper (check Gabriel STC)
+    - Think about the matrix inverse, degeneracy of two types
+### TODO: Gabriel: check out linear programming, simplex: Ax = b, x >= 0 (neither H- nor V-representation: called canonical form)
+    - For degeneracy of polytope, maybe have a FLAG fro degeneracy, so that it keeps track
+    - Maybe, just think of all the possible unboundedness, so no restrictions on that 
+
+### TODO: Gabriel: Look at 'qhull' in Python
+
+### TODO: Look at conventions for 'set' class in python, on when operations should be methods of functions, or when they should be functions of the package
+
+### FIXME: What convention do we want for seperate constructors? Do we want to use classmethods, like pandas? So we can have:
+    poly = geo.poly_from_verts(verts)  # More similar to numpy?
+    poly = geo.verts_to_poly(verts)
+    poly = geo.verts_2_poly(verts)
+    poly = geo.verts2poly(verts)
+    poly = geo.Polytope.from_verts(verts)  # @classmethod, used in pandas
+which one is best?
+# FROM: https://www.reddit.com/r/learnpython/comments/iy3rdl/classmethod_when_to_use_it/
+
+### FIXME: Should we use abbreviations, and when? For instance, we can have:
+    V_star = geo.control.min_inv_sub(...)  # NOTE: NumPy also uses the full name, i.e., `numpy.linalg.inv` and `numpy.random.rand`
+    V_star = geo.ctrl.min_inv_subspace(...)  # Should we use abbreviations only for methods?
 
 """
 
@@ -594,6 +623,8 @@ def scale(poly: Polytope, factor: float, center: str = 'origin') -> Polytope:
     """Scale the polytope P = `poly` by a factor β = `factor` such that W = {β * x ∈ ℝ^n | x ∈ P}. Note that by default, the scaling is performed around the origin.
 
     ### FIXME: Should we make this a method of the polytope self instead? And have the method `P.scale(a, in_place=True)`?
+
+    ### FIXME: Also maybe scaling just relative to a vector point
     
     Parameters
     ----------
@@ -691,6 +722,8 @@ def enum_int_points(poly: Polytope) -> ArrayLike:
     """Enumerate the integer points in a polytope `poly`, i.e., a lattice.
     
     ### TODO: Look into if this has cryptographic implementations? 
+
+    ### FIXME: Gabriel: Can be used for integer programming, combinatorial optimization (cutting plane methods)
     
     """
     raise NotImplementedError
@@ -1076,6 +1109,8 @@ def QuotientSpace():
 
     ### FIXME: Should I also make the class `AffineSubset`, as the elements of the quotient space are affine subspaces?
 
+    ### FIXME: Gabriel: Look op Grassmannian | one-to-one with orthogonal matrices, lots of interplay
+
     """
 
     def __init__(self, V: Subspace, R: Subspace):
@@ -1352,6 +1387,8 @@ def feas_reg_mpc() -> Polytope:
 def max_ctrl_inv_subs(A: ArrayLike, B: ArrayLike, C: ArrayLike) -> Subspace:
     """Computes the maximal (A,B)-controlled invariant subspace `V_star` contained in the kernel of `C`, i.e., V_star ⊆ ker(C). Note that maximal here refers to the unique subspace `V_star` with the largest dimension, i.e., V* = max_{V is (A, B)-controlled invariant, V ⊆ ker(C)} dim(V). See [1, Algorithm 4.1.2].
 
+    ### NOTE: Gabriel: these are fixed-point algorithms
+
     Parameters
     ----------
     A : ArrayLike
@@ -1401,6 +1438,14 @@ def min_cond_inv_subs(A: ArrayLike, B: ArrayLike, C: ArrayLike) -> Subspace:
 
 def max_reach_subs(A: ArrayLike, B: ArrayLike, C: ArrayLike) -> Subspace:
     """Computes the maximal reachability subspace R* = V* ∩ S*
+    
+    """
+    raise NotImplementedError
+
+def max_output_nulling_subs(A: ArrayLike, B: ArrayLike, C: ArrayLike, D: ArrayLike = None) -> Subspace:
+    """Computes the maximal output nulling subspace
+
+    ### NOTE: These are fixed-point algorithms
     
     """
     raise NotImplementedError
