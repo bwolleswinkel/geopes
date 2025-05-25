@@ -28,12 +28,19 @@ For developers, there are several conventions to follow:
 Docstrings
 ^^^^^^^^^^
 
-For docstring, we follow mainly the NumPy docstring convention, as defined here: `NumPy docstring <https://numpydoc.readthedocs.io/en/latest/format.html>`. We do have these added restrictions:
+For docstring, we follow mainly the NumPy docstring convention, as defined here: `NumPy docstring <https://numpydoc.readthedocs.io/en/latest/format.html>`_. We do have these added restrictions:
 
-- The first line of the docstring should directly follow the ``"""`` symbol, i.e.::
-   def my_function():
-       """This is the first line of the docstring, immidiately after the triple quotes.
+* The first line of the docstring should directly follow the ``"""`` symbol, i.e.:
+   
+   .. code-block:: python
 
-       """
-       pass
-- The last line of the docstring should be empty, i.e. there should be a blank line after the last line of the docstring, before the closing ``"""`` symbol.
+     def my_function():
+         """This is the first line of the docstring, immediately after the triple quotes.
+
+         Here we have the last line of the docstring, which is always followed by an empty line. 
+
+         """
+         pass
+
+   The reason that we have this, is that if we collapse the docstring in our IDE, we can still see the first line of the docstring, which is often a short description of the function. Otherwise, we just see the ``"""`` symbol, which is not very informative.
+* The last line of the docstring should be empty, i.e. there should be a blank line after the last line of the docstring, before the closing ``"""`` symbol.
