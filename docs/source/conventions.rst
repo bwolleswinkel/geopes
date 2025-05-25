@@ -18,3 +18,22 @@ we use **column-major ordering**, as this is the convention in the Python ``cont
 
    import control as ct
    _, _, X = ct.forced_response(sys, t, u, return_X=True)
+
+----------
+Developers
+----------
+
+For developers, there are several conventions to follow:
+
+Docstrings
+^^^^^^^^^^
+
+For docstring, we follow mainly the NumPy docstring convention, as defined here: `NumPy docstring <https://numpydoc.readthedocs.io/en/latest/format.html>`. We do have these added restrictions:
+
+- The first line of the docstring should directly follow the ``"""`` symbol, i.e.::
+   def my_function():
+       """This is the first line of the docstring, immidiately after the triple quotes.
+
+       """
+       pass
+- The last line of the docstring should be empty, i.e. there should be a blank line after the last line of the docstring, before the closing ``"""`` symbol.
