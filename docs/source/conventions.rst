@@ -55,6 +55,6 @@ Abbreviations and naming
 
 For functions and method, we encourage the use of abbreviations to improve code conciseness. For instance, instead of naming a method ``minimal_reperesentation``, the abbreviation ``min_repr`` should be used. For up to 3 letter words, one should not use and acronym, for 5 letters or more acronyms are preferred, and for 7 letters or more, acronyms should definitely be used. The reason the function and methods names should not be self-explanatory, is that they should always be provided with a good, explanatory docstring, which removes the necessity of the functions name to be self-explanatory.
 
-Secondly, one should separate different word in names with and underscore, e.g., ``min_repr`` and ``is_convex`` (instead of ``minrepr`` and ``isconvex``). The only exception to this rule, is when we use a single letter abbreviation for the first word in the abbreviation, such as ``bbox`` for the method ``bounding_box``.
+Secondly, one should separate different word in names with and underscore, e.g., ``min_repr`` and ``is_convex`` (instead of ``minrepr`` and ``isconvex``). The only **exception** to this rule, is when we use a single letter abbreviation for the first word in the abbreviation, such as ``bbox`` for the method ``bounding_box``.
 
 Finally, for classes, the attributes ``self.is_<flag_name>`` are all flags, and should always be booleans. Note the underscore between the ``is`` and the flag name.
