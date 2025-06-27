@@ -43,6 +43,10 @@ For docstring, we follow mainly the NumPy docstring convention, as defined here:
          pass
 
    The reason that we have this, is that if we collapse the docstring in our IDE, we can still see the first line of the docstring, which is often a short description of the function. Otherwise, we just see the ``"""`` symbol, which is not very informative.
+
+   .. image:: images/collapsed_docstring_still_readable.png
+   :alt: Example of a collapsed docstring that is still readable
+   :align: left
 .. FIXME: I don't actually know if I want this? Because if the start of the docstring is very long, there is no way to collapse it in the IDE... so we might want to start on a newline anyway?
 
 * The last line of the docstring should be empty, i.e. there should be a blank line after the last line of the docstring, before the closing ``"""`` symbol.

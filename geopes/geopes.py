@@ -51,8 +51,8 @@ which one is best?
 
 """
 
-import copy
 from __future__ import annotations
+import copy
 from typing import Callable
 import warnings
 
@@ -406,6 +406,12 @@ class Polytope:
     
     def bsphere(self) -> Sphere:
         """Compute the bounding sphere of the polytope.
+        
+        """
+        raise NotImplementedError
+    
+    def max(self) -> np.ndarray:
+        """Returns the vertex which is 'furthest away' from either the center, the origin, or some other point. If multiple vertices are equally far, the one with smallest angle (going counterclockwise, in the positive horizontal direction) is returned.
         
         """
         raise NotImplementedError
@@ -1442,11 +1448,21 @@ def max_reach_subs(A: ArrayLike, B: ArrayLike, C: ArrayLike) -> Subspace:
     """
     raise NotImplementedError
 
+
 def max_output_nulling_subs(A: ArrayLike, B: ArrayLike, C: ArrayLike, D: ArrayLike = None) -> Subspace:
     """Computes the maximal output nulling subspace
 
     ### NOTE: These are fixed-point algorithms
     
+    """
+    raise NotImplementedError
+
+
+def partition(poly: Polytope) -> list[Polytope]:
+    """Partition a polytope `poly` into smaller polytopes. This is useful for example in model predictive control (MPC) to create a finite set of polytopes that can be used to approximate the reachable set, or for explicit MPC. We might want to make the class `Partition` for this. 
+
+    ### FIXME: Check out "An algorithmic approach to convex fair partitions of convex polygons," Campillo et all (2024)
+
     """
     raise NotImplementedError
 
