@@ -58,3 +58,8 @@ For functions and method, we encourage the use of abbreviations to improve code 
 Secondly, one should separate different word in names with and underscore, e.g., ``min_repr`` and ``is_convex`` (instead of ``minrepr`` and ``isconvex``). The only **exception** to this rule, is when we use a single letter abbreviation for the first word in the abbreviation, such as ``bbox`` for the method ``bounding_box``.
 
 Finally, for classes, the attributes ``self.is_<flag_name>`` are all flags, and should always be booleans. Note the underscore between the ``is`` and the flag name.
+
+Strings
+^^^^^^^
+
+For machine-readable strings, one should use ``'single_quotes'``. For human-interpretable strings, one should use ``''double_quotes''``. Example, we have ``ax.plot(..., color='blue')``, as the keyword ``'blue'`` is to be interpreted by the program itself. On the contrary, we should use ``plt.title("This is a title")``, as the title is to be interpreted by the human user. This convention is used to make it clear which strings are meant for the program and which are meant for the user.
