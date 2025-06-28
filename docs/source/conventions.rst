@@ -43,6 +43,7 @@ For docstring, we follow mainly the NumPy docstring convention, as defined here:
          pass
 
    The reason that we have this, is that if we collapse the docstring in our IDE, we can still see the first line of the docstring, which is often a short description of the function. Otherwise, we just see the ``"""`` symbol, which is not very informative.
+   
    .. image:: images/collapsed_docstring_still_readable.png
       :alt: Example of a collapsed docstring that is still readable
       :align: left
