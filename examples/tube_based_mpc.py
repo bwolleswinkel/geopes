@@ -11,6 +11,7 @@ import sys, os.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 #
 from geopes import geopes as geo
+from geopes.geopes import is_in
 
 # ------ Parameters ------
 
@@ -34,7 +35,7 @@ def mpc_controller(x_k):
     cost, constr = [], []
     for t in range(N):
         constr += [X_sdp[:, t + 1] == A @ X_sdp[:, t] + B @ U_sdp[:, t]]
-        constr += [geo.is_in(X_sdp[:, t], X)]
+        constr += [is_in(X_sdp[:, t], X)]
 
 
 # Create the noise polytope
