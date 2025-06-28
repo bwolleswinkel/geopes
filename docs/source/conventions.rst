@@ -62,4 +62,4 @@ Finally, for classes, the attributes ``self.is_<flag_name>`` are all flags, and 
 Strings
 ^^^^^^^
 
-For machine-readable strings, one should use ``'single_quotes'``. For human-interpretable strings, one should use ``''double_quotes''``. Example, we have ``ax.plot(..., color='blue')``, as the keyword ``'blue'`` is to be interpreted by the program itself. On the contrary, we should use ``plt.title("This is a title")``, as the title is to be interpreted by the human user. This convention is used to make it clear which strings are meant for the program and which are meant for the user.
+For machine-readable strings, one should use ``'single_quotes'``. For human-interpretable strings, one should use ``"double_quotes"``. Example, we have ``ax.plot(..., color='blue')``, as the keyword ``'blue'`` is to be interpreted by the program itself. On the contrary, we should use ``plt.title("This is a title")``, as the title is to be interpreted by the human user. This convention is used to make it clear which strings are meant for the program and which are meant for the user.
