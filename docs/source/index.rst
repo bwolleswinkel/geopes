@@ -46,6 +46,5 @@ Contents
 
    usage
    functionalities
-   api
    conventions
    examples
