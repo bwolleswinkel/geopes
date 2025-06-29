@@ -83,6 +83,8 @@ class Polytope:
         H-representation or a V-representation.
 
         ### FIXME: Maybe we should just make this a H-space representations? And make a method verts_to_poly instead?
+
+        ### FIXME: We should also allow for polyhedrons as 'degenerate' polytopes, i.e., those polytopes with infinite volume.
         
         Parameters
         ----------
@@ -105,7 +107,8 @@ class Polytope:
         self._vol = None
         self._mass_c = None   ### FIXME: Center of mass of the polytope
         self.n = F.shape[1]  ### FIXME: Placeholder
-        self.min_repr = None 
+        self.is_degen = None  ### FIXME: Not that we have two types of degeneracy, whenever self.vol = 0 (type I degeneracy), or when self.vol = np.inf (type II degeneracy). Should `self.is_degen` therefore be a flag or give two different values?
+        self.min_repr = None  ### FIXME: This should also maybe be the flag `is_min_repr` instead?
         self.is_empty = False  ### NOTE: A polytope can have zero volume but still be non-empty
 
     @property
@@ -431,6 +434,17 @@ class Polytope:
                 raise NotImplementedError
             case _:
                 raise ValueError(f"Unrecognized sampling method '{method}'")
+            
+    def to_zono(self) -> Zonotope:
+        """Convert the polytope to a zonotope, if possible. Raises and error if the polytope is not a zonotope.
+
+        Raises
+        ------
+        ValueError
+            If the polytope cannot be converted to a zonotope, i.e., if it is not a zonotope.
+
+        """
+        raise NotImplementedError
 
 
 class Zonotope(Polytope):
