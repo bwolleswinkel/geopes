@@ -58,7 +58,8 @@ For functions and method, we encourage the use of abbreviations to improve code 
 
 Secondly, one should separate different word in names with and underscore, e.g., ``min_repr`` and ``is_convex`` (instead of ``minrepr`` and ``isconvex``). The only **exception** to this rule, is when we use a single letter abbreviation for the first word in the abbreviation, such as ``bbox`` for the method ``bounding_box``.
 
-Finally, for classes, the attributes ``self.is_<flag_name>`` are all flags, and should always be booleans. Note the underscore between the ``is`` and the flag name.
+Finally, for classes, the attributes ``self.is_<flag_name>`` are all flags, and should always be booleans. Note the underscore between the ``is`` and the flag name. 
+.. TODO: This is, however, contradicting certain built-in methods, such as ``isinstance`` and ``issubclass``. I think its good to explicitly define this here.
 
 Strings
 ^^^^^^^
