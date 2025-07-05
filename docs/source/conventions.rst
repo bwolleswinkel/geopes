@@ -65,3 +65,21 @@ Strings
 ^^^^^^^
 
 For machine-readable strings, one should use ``'single_quotes'``. For human-interpretable strings, one should use ``"double_quotes"``. Example, we have ``ax.plot(..., color='blue')``, as the keyword ``'blue'`` is to be interpreted by the program itself. On the contrary, we should use ``plt.title("This is a title")``, as the title is to be interpreted by the human user. This convention is used to make it clear which strings are meant for the program and which are meant for the user.
+
+The ``in_place`` argument
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Any numeric class method has an optional ``in_place`` argument, whether or not the operation should be done in place. For example:
+
+.. code-block:: python
+
+   import numpy as np
+   import geopes as geo
+
+   G = np.array([[1, 2], [3, 4]])
+   f = np.array([1, -3])
+   X = geo.poly(G, f):
+   F = a * X  # NOTE: This operation returns a new polytope, F, and leaves X unchanged.
+   X.scale(a, in_place=True)  # NOTE: This operation scales the polytope X in place, i.e. it modifies X directly.
+
+A similar reasoning applies to methods such as ``mat_mul``, ``translate``, ``rotate``, ``mink_sum``, etc.
