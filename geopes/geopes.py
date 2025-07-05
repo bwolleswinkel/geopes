@@ -49,6 +49,12 @@ which one is best?
     V_star = geo.control.min_inv_sub(...)  # NOTE: NumPy also uses the full name, i.e., `numpy.linalg.inv` and `numpy.random.rand`
     V_star = geo.ctrl.min_inv_subspace(...)  # Should we use abbreviations only for methods?
 
+### FIXME: Should we also have functions as follows:
+    X = geo.poly(F, g)  # Instead of `geo.Polytope(F, g)`
+    X = geo.zono(G, c)  # Instead of `geo.Zonotope(G, c)`
+    E = geo.ellipsoid(A, b)  # Instead of `geo.Ellipsoid(A, b)`
+    # This is similar to how `numpy` does it, i.e., `np.array(...)`, or `control.ss(A, B, C, D)` instead of `control.StateSpace(A, B, C, D)`.
+
 """
 
 from __future__ import annotations
