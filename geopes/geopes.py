@@ -55,6 +55,10 @@ which one is best?
     E = geo.ellipsoid(A, b)  # Instead of `geo.Ellipsoid(A, b)`
     # This is similar to how `numpy` does it, i.e., `np.array(...)`, or `control.ss(A, B, C, D)` instead of `control.StateSpace(A, B, C, D)`.
 
+### FIXME: Should we name the package 'geopes' or 'pespy'? Geo stands for geometry, but could also be confused with geography. Examples would be:
+    X = geo.poly(F, g)  # Geo for geometry
+    X = pp.poly(F, g)  # Pes for polytope, ellipsoid, subspace
+
 """
 
 from __future__ import annotations
