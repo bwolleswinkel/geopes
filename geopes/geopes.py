@@ -1494,7 +1494,7 @@ def partition(poly: Polytope) -> list[Polytope]:
 # ------------ UTILS ------------
 
 
-class DimensionError(Exception):
+class DimensionError(ValueError):
     """Exception raised for errors in the input dimensions.
     
     """
@@ -1508,7 +1508,25 @@ class DimensionError(Exception):
             Explanation of the error.
         
         """
-        self.message = message
+        self.message = "dimension of first object does not match dimension of second object"
+        super().__init__(self.message)
+
+
+class IncompatibleTypes(TypeError):
+    """Exception raised for errors in the input types.
+    
+    """
+
+    def __init__(self, message: str):
+        """Constructor for the exception.
+
+        Attributes
+        ----------
+        message : str
+            Explanation of the error.
+        
+        """
+        self.message = "incompatible types for operation"
         super().__init__(self.message)
 
 
