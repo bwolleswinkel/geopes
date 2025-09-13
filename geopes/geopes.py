@@ -1183,6 +1183,25 @@ class Subspace(ConvexRegion):
         raise NotImplementedError
     
 
+class AffineSubspace(Subspace):
+    """Class which implements an affine subspace `aff_sub` = {x ∈ ℝ^n | x = x_0 + v, v ∈ V}, where V is a subspace and x_0 is a point in the affine subspace.
+    
+    """
+
+    def __init__(self, point: ArrayLike, basis: ArrayLike):
+        """Construct an affine subspace `aff_sub` = {x ∈ ℝⁿ | x = x₀ + v, v ∈ V}, where V is a subspace and x_0 is a point in the affine subspace.
+
+        Parameters
+        ----------
+        point : ArrayLike
+            A point x_0 in the affine subspace.
+        basis : ArrayLike
+            The basis of the subspace V.
+        
+        """
+        raise NotImplementedError
+    
+
 class QuotientSpace:
     """Class which implements a quotient space V / R = {V + r | r ∈ R}.
 
