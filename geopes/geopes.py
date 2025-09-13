@@ -73,6 +73,7 @@ import numpy as np
 import scipy as sp
 import control as ct
 import matplotlib.pyplot as plt
+from matplotlib.axes import Axes
 from numpy.typing import ArrayLike
 import cvxpy as cvx  ### NOTE: I want to make this an optional dependency, as it's not strictly needed for any core functionality
 
@@ -145,7 +146,7 @@ class Polytope(ConvexRegion):
         self._mass_c = None   ### FIXME: Center of mass of the polytope
         self._n = F.shape[1]  ### FIXME: Placeholder
         self.is_degen = None  ### FIXME: Not that we have two types of degeneracy, whenever self.vol = 0 (type I degeneracy), or when self.vol = np.inf (type II degeneracy). Should `self.is_degen` therefore be a flag or give two different values?
-        self.min_repr = None  ### FIXME: This should also maybe be the flag `is_min_repr` instead?
+        self.is_min_repr = None  ### FIXME: This should also maybe be the flag `is_min_repr` instead?
         self.is_empty = False  ### NOTE: A polytope can have zero volume but still be non-empty
 
     @property
@@ -387,7 +388,7 @@ class Polytope(ConvexRegion):
     
     def __repr__(self) -> str:
         """Debug print the polytope."""
-        return f"{self.__class__.__name__}(A.shape={self._F.shape}, b.shape={self._g.shape}, verts.shape={self._verts.shape if self.V_repr else None}, n={self.n}, min_repr={self.min_repr}, is_empty={self.is_empty})"
+        return f"{self.__class__.__name__}(A.shape={self._F.shape}, b.shape={self._g.shape}, verts.shape={self._verts.shape if self.V_repr else None}, n={self.n}, min_repr={self.is_min_repr}, is_empty={self.is_empty})"
     
     def __array_ufunc__(self, ufunc, method, other, *args, **kwargs) -> Polytope:
         """Magic method which gets called if the `other` object is a Numpy array. Depending on what operation to perform, we do different stuff.
@@ -501,6 +502,12 @@ class Polytope(ConvexRegion):
         ------
         ValueError
             If the polytope cannot be converted to a zonotope, i.e., if it is not a zonotope.
+
+        """
+        raise NotImplementedError
+    
+    def plot(ax: Axes = None, show: bool = True) -> Axes:
+        """Plot the polytope in 1D, 2D, or 3D.   
 
         """
         raise NotImplementedError
@@ -1117,7 +1124,7 @@ class Subspace(ConvexRegion):
     def __init__(self, basis: ArrayLike):
         self.basis = basis
         self.dim = None   ### FIXME: Placeholder
-        self.min_repr = None
+        self.is_min_repr = None
         self.is_empty = None  ### NOTE: Here, 'empty' means the subspace just contains the zero vector, i.e., `self` = {0}
 
     @property
@@ -1165,7 +1172,7 @@ class Subspace(ConvexRegion):
     
     def __repr__(self) -> str:
         """Debug print the subspace."""
-        return f"{self.__class__.__name__}(basis.shape={self.basis.shape}, n={self.n}, dim={self.dim}, min_repr={self.min_repr}, is_empty={self.is_empty})"
+        return f"{self.__class__.__name__}(basis.shape={self.basis.shape}, n={self.n}, dim={self.dim}, min_repr={self.is_min_repr}, is_empty={self.is_empty})"
 
     def reduce(self) -> Subspace:
         """Reduce the basis `basis` of the subspace to a minimal basis.
