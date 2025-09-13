@@ -506,8 +506,10 @@ class Polytope(ConvexRegion):
         """
         raise NotImplementedError
     
-    def plot(ax: Axes = None, show: bool = True) -> Axes:
-        """Plot the polytope in 1D, 2D, or 3D.   
+    def plot(ax: Axes = None, show: bool = True) -> Axes | None:
+        """Plot the polytope in 1D, 2D, or 3D.  
+
+        ### FIXME: Should this be an external method as well? I.e., `geo.plot(poly)`? 
 
         """
         raise NotImplementedError
@@ -1676,6 +1678,11 @@ def main():
     cost, const = [], []
     for k in range(10):
         const += [is_in(X[:, k + 1], poly)]
+
+    # TODO: Implement the following:
+    if False:
+        A, b = poly.to_ineq()  # We can also have variations on this, but return -> tuple
+        v_1, v_2, v_3 = subs  # FIXME: I don't know if we want this, but this is also a possibility...
     
 
 if __name__ == "__main__":
