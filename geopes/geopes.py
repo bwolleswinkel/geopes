@@ -1183,7 +1183,7 @@ class Subspace(ConvexRegion):
         raise NotImplementedError
     
 
-class AffineSubspace(Subspace):
+class AffineSubset(ConvexRegion):
     """Class which implements an affine subspace `aff_sub` = {x ∈ ℝ^n | x = x_0 + v, v ∈ V}, where V is a subspace and x_0 is a point in the affine subspace.
     
     """
