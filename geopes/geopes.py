@@ -59,9 +59,12 @@ which one is best?
     X = geo.poly(F, g)  # Geo for geometry
     X = pp.poly(F, g)  # Pes for polytope, ellipsoid, subspace
 
+### FIXME: As Gabriel said, storing vertices in high dimesnions, e.g., 1000, is prohibitive as they grow exponentially (the number of them)
+
 """
 
 from __future__ import annotations
+from abc import ABC, abstractmethod
 import copy
 from typing import Callable
 import warnings
@@ -74,7 +77,31 @@ from numpy.typing import ArrayLike
 import cvxpy as cvx  ### NOTE: I want to make this an optional dependency, as it's not strictly needed for any core functionality
 
 
-class Polytope:
+class ConvexRegion(ABC):
+    """A base class for convex regions, which can be inherited by other classes such as Polytope, Ellipsoid, etc.
+    
+    """
+    
+    @property
+    @abstractmethod
+    def n(self):
+        """The dimension of the space in which the convex region lives."""
+        pass
+
+    @property
+    @abstractmethod
+    def dim(self):
+        """The dimension of the convex region itself, which can be different (i.e., equal or smaller) from the ambient space dimension."""
+        pass
+
+    @property
+    @abstractmethod
+    def vol(self):
+        """The n-dimensional volume (Lebesgue measure) of the convex region."""
+        pass
+
+
+class Polytope(ConvexRegion):
     """The polytope class which implements a polytope `poly` = {x ∈ ℝ^n | Fx ≤ g}.
     This class emulates a numerical type, and has a H-representation (half-space 
     representation) and V-representation (vertex representation).
@@ -116,7 +143,7 @@ class Polytope:
         self._cheb_r = None
         self._vol = None
         self._mass_c = None   ### FIXME: Center of mass of the polytope
-        self.n = F.shape[1]  ### FIXME: Placeholder
+        self._n = F.shape[1]  ### FIXME: Placeholder
         self.is_degen = None  ### FIXME: Not that we have two types of degeneracy, whenever self.vol = 0 (type I degeneracy), or when self.vol = np.inf (type II degeneracy). Should `self.is_degen` therefore be a flag or give two different values?
         self.min_repr = None  ### FIXME: This should also maybe be the flag `is_min_repr` instead?
         self.is_empty = False  ### NOTE: A polytope can have zero volume but still be non-empty
@@ -155,6 +182,28 @@ class Polytope:
         """
         if self._cheb_r is None:
             ...
+        raise NotImplementedError
+    
+    @property
+    def n(self):
+        """The dimension of the space in which the polytope lives.
+        
+        ### FIXME: Should return a value based on the representation of the polytope, i.e., if H-repr, then F.shape[1], if V-repr, then verts.shape[1].
+         
+        """
+        return self._F.shape[1]  # FIXME: Placeholder
+    
+    @n.setter
+    def n(self, value: int):
+        warnings.warn("The dimension of the space 'n' is read-only and should not be set directly.", stacklevel=2, category=UserWarning)
+        self._is_consitent = False
+        self_n = value
+    
+    @property
+    def dim(self):
+        """The dimension of the polytope itself, which can be different (i.e., equal or smaller) from the ambient space dimension.
+         
+        """
         raise NotImplementedError
     
     @property
@@ -1060,7 +1109,7 @@ def is_adjacent(poly_1: Polytope, poly_2: Polytope) -> bool:
 # ------------ SUBSPACE ------------
 
 
-class Subspace():
+class Subspace(ConvexRegion):
     """A subspace class which implements a subspace `sub` = {x ∈ ℝ^n | x ∈ range(E)}, where E is the basis of the subspace.
     
     """
@@ -1134,7 +1183,7 @@ class Subspace():
         raise NotImplementedError
     
 
-def QuotientSpace():
+class QuotientSpace:
     """Class which implements a quotient space V / R = {V + r | r ∈ R}.
 
     ### FIXME: Should I also make the class `AffineSubset`, as the elements of the quotient space are affine subspaces?
@@ -1181,7 +1230,7 @@ def quotient(subs_1: Polytope, subs_2: Polytope) -> QuotientSpace:
 # ------------ ELLIPSOID ------------
 
 
-class Ellipsoid():
+class Ellipsoid(ConvexRegion):
     """The ellipsoid class which implements an ellipsoid `ell` = {x ∈ ℝ^n | (x - c)^T P^-1 (x - c) ≤ α}.
     
     """
