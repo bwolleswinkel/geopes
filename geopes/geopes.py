@@ -1203,7 +1203,7 @@ class AffineSubspace(Subspace):
     
 
 class QuotientSpace:
-    """Class which implements a quotient space V / R = {V + r | r ∈ R}.
+    """Class which implements a quotient space V / R = {V + r | r ∈ R}, where R is a subspace of V, and V + r is an affine subspace.
 
     ### FIXME: Should I also make the class `AffineSubset`, as the elements of the quotient space are affine subspaces?
 
