@@ -116,9 +116,11 @@ class Polytope(ConvexRegion):
     
     """
 
-    def __init__(self, F: ArrayLike = None, g: ArrayLike = None):
+    def __init__(self, F: ArrayLike = None, g: ArrayLike = None, *, F_eq: ArrayLike = None, g_eq: ArrayLike = None):
         """Initialize a Polytope object (see class for description) based on either a 
         H-representation or a V-representation.
+
+        ### NOTE: Using the `*` in the argument list forces the user to use keyword arguments for `F_ineq` and `g_ineq`, which makes it clear that these are not positional arguments.
 
         ### FIXME: Maybe we should just make this a H-space representations? And make a method verts_to_poly instead?
 
@@ -1682,7 +1684,8 @@ def main():
     # TODO: Implement the following:
     if False:
         A, b = poly.to_ineq()  # We can also have variations on this, but return -> tuple
-        v_1, v_2, v_3 = subs  # FIXME: I don't know if we want this, but this is also a possibility...
+        v_1, v_2, v_3 = subs  # FIXME: I don't know if we want this, but this is also a possibility: actually, numpy supports this, so... we can have the following:
+        v_1, v_2 = subs.basis  # NOTE: Here we are relying on the row-major order of numpy arrays
     
 
 if __name__ == "__main__":
