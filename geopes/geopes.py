@@ -117,8 +117,7 @@ class Polytope(ConvexRegion):
     """
 
     def __init__(self, F: ArrayLike = None, g: ArrayLike = None, *, F_eq: ArrayLike = None, g_eq: ArrayLike = None):
-        """Initialize a Polytope object (see class for description) based on either a 
-        H-representation or a V-representation.
+        """Initialize a Polytope object (see class for description) based on either a H-representation or a V-representation.
 
         ### NOTE: Using the `*` in the argument list forces the user to use keyword arguments for `F_ineq` and `g_ineq`, which makes it clear that these are not positional arguments.
 
@@ -153,7 +152,7 @@ class Polytope(ConvexRegion):
         Note that the above are all valid constructors for a polytope.
         
         """
-        self.H_repr = True
+        self.H_repr = True   ### FIXME: Should this be `is_H_repr` instead?
         self.V_repr = False
         self._F = F
         self._g = g
@@ -167,6 +166,7 @@ class Polytope(ConvexRegion):
         self._mass_c = None   ### FIXME: Center of mass of the polytope
         self._n = F.shape[1]  ### FIXME: Placeholder
         self.is_degen = None  ### FIXME: Not that we have two types of degeneracy, whenever self.vol = 0 (type I degeneracy), or when self.vol = np.inf (type II degeneracy). Should `self.is_degen` therefore be a flag or give two different values?
+        ### FIXME: Also look into "Representation of unbounded polytopes" from wikipedia, about vertex representation with 'bounding rays', seems quite interesting. This is yet another representation of polytopes, which is neither H- nor V-representation.
         self.is_min_repr = None  ### FIXME: This should also maybe be the flag `is_min_repr` instead?
         self.is_empty = False  ### NOTE: A polytope can have zero volume but still be non-empty
 
@@ -523,6 +523,38 @@ class Polytope(ConvexRegion):
         ------
         ValueError
             If the polytope cannot be converted to a zonotope, i.e., if it is not a zonotope.
+
+        """
+        raise NotImplementedError
+    
+    def to_H_repr(self, in_place: bool = True) -> None | Polytope:
+        """Convert the polytope to H-representation, if it is not already in H-representation, and remove the V-representation.
+        
+        Parameters
+        ----------
+        in_place : bool
+            Whether to perform the operation in place. Default is False.
+
+        Returns
+        -------
+        poly : Polytope
+            The polytope in H-representation.
+
+        """
+        raise NotImplementedError
+    
+    def to_V_repr(self, in_place: bool = True) -> None | Polytope:
+        """Convert the polytope to V-representation, if it is not already in V-representation, and remove the H-representation.
+        
+        Parameters
+        ----------
+        in_place : bool
+            Whether to perform the operation in place. Default is False.
+
+        Returns
+        -------
+        poly : Polytope
+            The polytope in V-representation.
 
         """
         raise NotImplementedError
@@ -1149,6 +1181,14 @@ class Subspace(ConvexRegion):
         self.dim = None   ### FIXME: Placeholder
         self.is_min_repr = None
         self.is_empty = None  ### NOTE: Here, 'empty' means the subspace just contains the zero vector, i.e., `self` = {0}
+        ### FIXME: The above is 'incorrect,' a subspace always contains the zero vector, so it is never empty; however, we can have a subspace which only contains the zero vector, i.e., the trivial subspace
+        self.is_trivial = None  ### Better implementation of the above
+
+    def __getattr__(self, name: str) -> AttributeError:
+        if name == 'is_empty':
+            raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'. Instead, use 'is_trivial' to check if the subspace only contains the zero vector.")
+        else:
+            self.__getattribute__(name)
 
     @property
     def perp(self) -> Subspace:
