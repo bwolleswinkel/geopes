@@ -179,6 +179,7 @@ class Polytope(ConvexRegion):
             if 'V' in kwargs:
                 raise ValueError("Cannot provide both (F, g) and V.")
             ...
+            ### FIXME: Where should we check that no ADDITIONAL keyword arguments are given, i.e., kwargs should be empty after we have 'used' all keywords, and we should raise an error otherwise. Should we do that here, in dispatch, or in the private methods?
         elif len(args) == 1:
             if 'F' in kwargs or 'g' in kwargs:
                 raise ValueError("Cannot provide both V and F or g.")
