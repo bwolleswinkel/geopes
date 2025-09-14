@@ -169,6 +169,46 @@ class Polytope(ConvexRegion):
         ### FIXME: Also look into "Representation of unbounded polytopes" from wikipedia, about vertex representation with 'bounding rays', seems quite interesting. This is yet another representation of polytopes, which is neither H- nor V-representation.
         self.is_min_repr = None  ### FIXME: This should also maybe be the flag `is_min_repr` instead?
         self.is_empty = False  ### NOTE: A polytope can have zero volume but still be non-empty
+        ### FIXME: This method should dispatch to either private method `_init_H_repr`` or `_init_V_repr`` based on the input arguments
+        # TEMP: This is just a placeholder
+        #
+        args = (F, g)
+        kwargs = {'F_eq': F_eq, 'g_eq': g_eq}
+        #
+        if len(args) == 2:
+            if 'V' in kwargs:
+                raise ValueError("Cannot provide both (F, g) and V.")
+            ...
+        elif len(args) == 1:
+            if 'F' in kwargs or 'g' in kwargs:
+                raise ValueError("Cannot provide both V and F or g.")
+            ...
+        elif len(args) == 0:
+            if 'F' in kwargs and 'g' in kwargs:
+                if 'V' in kwargs:
+                    raise ValueError("Cannot provide both (F, g) and V.")
+                ...
+            elif 'V' in kwargs:
+                if 'F' in kwargs or 'g' in kwargs:
+                    ### FIXME: I know this is redundant, but I want to keep the structure similar to above for now
+                    raise ValueError("Cannot provide both V and F or g.")
+                ...
+        else:
+            raise ValueError("Invalid arguments. Use Polytope(F, g) or Polytope(V=V).")
+        
+            
+
+    def _init_H_repr(self, A: ArrayLike, b: ArrayLike, **kwargs):
+        """Initialize the Polytope object based on a H-representation.
+        
+        ### NOTE: In all these constructors, we should always check that no ADDITIONAL keyword arguments are given, i.e., kwargs should be empty after we have 'used' all keywords, and we should raise an error otherwise.
+
+        """
+        raise NotImplementedError
+    
+    def _init_V_repr(self, V: ArrayLike, **kwargs):
+        """Initialize the Polytope object based on a V-representation."""
+        raise NotImplementedError
 
     @property
     def F(self):
@@ -385,7 +425,7 @@ class Polytope(ConvexRegion):
         """
         return -1 * self
     
-    def __pow__(self, power: int) -> Cube:
+    def __pow__(self, power: int) -> Box:
         """Implements the magic method for the power operator `**` as the Cartesian product V = S × ... × S (`power` times). Only implemented for 1-d polytopes (i.e., 1-cubes).
         
         Parameters
@@ -477,7 +517,7 @@ class Polytope(ConvexRegion):
             case _:
                 raise ValueError(f"Unrecognized copy type '{type}'")
     
-    def bbox(self, in_place: bool = False) -> Cube:
+    def bbox(self, in_place: bool = False) -> Box:
         """Compute the bounding box of the polytope.
         
         Parameters
@@ -588,8 +628,10 @@ class Zonotope(Polytope):
         super().__init__(self.G + 1, self.c - 1)
 
 
-class Cube(Polytope):
-    """A n-cube is a special type of polytope, where the half-spaces are all aligned with some x_i-x_j plane.
+class Box(Zonotope):
+    """A n-box is a special type of zonotope, where the half-spaces are all aligned with some x_i-x_j plane.
+
+    ### FIXME: This is actually more often called a Box, see https://en.wikipedia.org/wiki/Hyperrectangle
     
     """
 
@@ -598,9 +640,21 @@ class Cube(Polytope):
         self.bounds = np.max(A, axis=0)  ### FIXME: Placeholder
 
     def sample(self) -> ArrayLike:
-        """Sample a point from the cube, which is easier then from a general polytope, and therefore used by refection sampling.
+        """Sample a point from the box, which is easier then from a general polytope, and therefore used by rejection sampling.
         
         """
+        raise NotImplementedError
+    
+
+class Cube(Zonotope):
+    """A n-cube is a special type of zonotope, where all edges have the same length.
+    
+    """
+
+    def __init__(self, length: float, center: ArrayLike = None, rotation: ArrayLike = None):
+        ...
+        self.center = ...
+        self.rotation = ...  ### FIXME: How do we want to represent rotations? As a matrix, or as a list of angles?
         raise NotImplementedError
 
 
@@ -625,8 +679,10 @@ def verts_to_poly(verts: ArrayLike) -> Polytope:
     raise NotImplementedError
 
 
-def bounds_to_poly(lb: ArrayLike, ub: ArrayLike) -> Cube:
+def bounds_to_poly(lb: ArrayLike, ub: ArrayLike) -> Box:
     """Convert lower and upper bounds `lb` and `ub` to a polytope.
+
+    ### FIXME: This should probably just be a wrapper for a `@classmethod` of Cube, i.e., `Cube.from_bounds(lb, ub)`, right? 
     
     Parameters
     ----------
@@ -710,7 +766,7 @@ def hrepr(poly: Polytope) -> tuple:
     raise NotImplementedError
 
 
-def power(poly: Polytope, power: int) -> Cube:
+def power(poly: Polytope, power: int) -> Box:
     """Compute the Cartesian product of a polytope `poly` with itself `power` times, i.e., V = S × ... × S (`power` times).
     
     Parameters
@@ -1373,7 +1429,7 @@ class Ellipsoid(ConvexRegion):
             self._vol = (np.pi ** (self.n / 2) / np.math.gamma(self.n / 2 + 1)) / np.sqrt(np.linalg.det(self.P))
         return self._vol
     
-    def bbox(self) -> Cube:
+    def bbox(self) -> Box:
         """Compute the bounding box of the ellipsoid.
         
         """
