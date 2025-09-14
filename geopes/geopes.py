@@ -132,6 +132,25 @@ class Polytope(ConvexRegion):
             The matrix F ∈ ℝ^{p x n} in the H-representation {x ∈ ℝ^n | Fx ≤ g}.
         g : ArrayLike
             The vector g ∈ ℝ^p in the H-representation {x ∈ ℝ^n | Fx ≤ g}.
+
+        Examples
+        --------
+        >>> import numpy as np
+        >>> import geopes as gp
+
+        import modules
+        
+        >>> F = np.array([[1, 0], [0, 1], [-1, 0], [0, -1]])
+        >>> g = np.array([1, 1, 1, 1])
+        >>> V = np.array([[1, 1], [-1, 1], [-1, -1], [1, -1]])
+
+        vertices representation
+
+        >>> poly_1 = gp.poly(F, g)
+        >>> poly_2 = gp.Polytope(V)
+        >>> poly_3 = gp.poly(verts=V)
+        
+        Note that the above are all valid constructors for a polytope.
         
         """
         self.H_repr = True

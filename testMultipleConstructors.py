@@ -5,12 +5,6 @@ class Bar:
     def __repr__(self):
         return f"Bar({self.value})"
 
-class Bar:
-    """A dummy class for demonstration."""
-    def __init__(self, value):
-        self.value = value
-    def __repr__(self):
-        return f"Bar({self.value})"
 
 class Foo:
     def __init__(self, *args, **kwargs):
@@ -25,6 +19,7 @@ class Foo:
             A, b = args
             if any(k in kwargs for k in ['A', 'b', 'V']):
                 raise TypeError("Cannot mix positional and keyword arguments for A, b, or V.")
+            # FIXME: Maybe we should just make this a class method? No, this actually does NOT work! Because this requires conversion...
             self._init_from_ab(A, b)
         elif len(args) == 1:
             # Pattern: Foo(V, ...)
@@ -50,6 +45,12 @@ class Foo:
         
         # Any remaining keyword arguments are stored here
         self.extra_args = kwargs
+
+    @classmethod
+    def from_ab(cls, A, b, **kwargs):
+        """Alternative constructor from A and b."""
+        instance = cls(A, b, **kwargs)
+        return instance
         
     def _init_from_ab(self, A, b):
         """Initializes the object from A and b."""
