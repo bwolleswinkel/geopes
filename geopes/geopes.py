@@ -152,23 +152,23 @@ class Polytope(ConvexRegion):
         Note that the above are all valid constructors for a polytope.
         
         """
-        self.H_repr = True   ### FIXME: Should this be `is_H_repr` instead?
-        self.V_repr = False
-        self._F = F
-        self._g = g
-        self._F_eq = None
-        self._g_eq = None
-        self._verts = None
+        self.H_repr: bool = True   ### FIXME: Should this be `is_H_repr` instead?
+        self.V_repr: bool = False   ### FIXME: Is this not redundant, as this will always coincide with self.verts being not None?
+        self._F: ArrayLike | None = F
+        self._g: ArrayLike | None = g
+        self._F_eq: ArrayLike | None = None
+        self._g_eq: ArrayLike | None = None
+        self._verts: ArrayLike | None = None
         ### FIXME: Also look at the 'centroid', which is different from the Chebyshev center (see `pytope`)
-        self._cheb_c = None
-        self._cheb_r = None
-        self._vol = None
-        self._mass_c = None   ### FIXME: Center of mass of the polytope
-        self._n = F.shape[1]  ### FIXME: Placeholder
-        self.is_degen = None  ### FIXME: Not that we have two types of degeneracy, whenever self.vol = 0 (type I degeneracy), or when self.vol = np.inf (type II degeneracy). Should `self.is_degen` therefore be a flag or give two different values?
+        self._cheb_c: ArrayLike | None = None
+        self._cheb_r: ArrayLike | None = None
+        self._vol: float | None  = None
+        self._com: ArrayLike | None = None   ### FIXME: Center of mass of the polytope. This should be called the centroid, right?
+        self._n: int = F.shape[1]  ### FIXME: Placeholder
+        self.is_degen: bool | None = None  ### FIXME: Not that we have two types of degeneracy, whenever self.vol = 0 (type I degeneracy), or when self.vol = np.inf (type II degeneracy). Should `self.is_degen` therefore be a flag or give two different values?
         ### FIXME: Also look into "Representation of unbounded polytopes" from wikipedia, about vertex representation with 'bounding rays', seems quite interesting. This is yet another representation of polytopes, which is neither H- nor V-representation.
-        self.is_min_repr = None  ### FIXME: This should also maybe be the flag `is_min_repr` instead?
-        self.is_empty = False  ### NOTE: A polytope can have zero volume but still be non-empty
+        self.is_min_repr: bool | None = None  ### FIXME: This should also maybe be the flag `is_min_repr` instead?
+        self.is_empty: bool | None = False  ### NOTE: A polytope can have zero volume but still be non-empty
         ### FIXME: This method should dispatch to either private method `_init_H_repr`` or `_init_V_repr`` based on the input arguments
         # TEMP: This is just a placeholder
         #
@@ -231,18 +231,14 @@ class Polytope(ConvexRegion):
     
     @property
     def cheb_c(self):
-        """Compute the Chebyshev center of the polytope.
-        
-        """
+        """Compute the Chebyshev center of the polytope."""
         if self._cheb_c is None:
             ...
         raise NotImplementedError
     
     @property
     def cheb_r(self):
-        """Compute the Chebyshev radius of the polytope.
-        
-        """
+        """Compute the Chebyshev radius of the polytope."""
         if self._cheb_r is None:
             ...
         raise NotImplementedError
