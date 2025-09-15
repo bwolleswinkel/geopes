@@ -283,8 +283,8 @@
         <mxCell id="bhVvfPVycpRIn36rSQ9i-116" value="&lt;b&gt;&lt;u&gt;âšªï¸&lt;/u&gt;&lt;/b&gt;&lt;b&gt;&lt;sup&gt;0&lt;/sup&gt;&lt;/b&gt;&amp;nbsp;Semi-axis representation" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="750" y="685" width="180" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="bhVvfPVycpRIn36rSQ9i-117" value="&lt;b&gt;&lt;u&gt;í ½í¿¢&lt;/u&gt;&lt;/b&gt;&lt;span style=&quot;font-size: 10px;&quot;&gt;&lt;sup&gt;âˆž&lt;/sup&gt;&lt;/span&gt;&amp;nbsp;PSD representation" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="750" y="730" width="150" height="30" as="geometry" />
+        <mxCell id="bhVvfPVycpRIn36rSQ9i-117" value="&lt;b&gt;&lt;u&gt;âšªï¸&lt;/u&gt;&lt;/b&gt;&lt;span style=&quot;font-size: 10px;&quot;&gt;&lt;sup&gt;âˆž&lt;/sup&gt;&lt;/span&gt;&amp;nbsp;Semi-axis representation" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="735" y="730" width="180" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
