@@ -229,6 +229,9 @@
         <mxCell id="bhVvfPVycpRIn36rSQ9i-93" value="&lt;span style=&quot;font-size: 12px;&quot;&gt;&lt;u&gt;í ½í¿¢&lt;/u&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 10px;&quot;&gt;&lt;sup&gt;âˆž&lt;/sup&gt;&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="710" y="230" width="50" height="30" as="geometry" />
         </mxCell>
+        <mxCell id="bhVvfPVycpRIn36rSQ9i-95" value="í ½í¿¢" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="950" y="150" width="40" height="30" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
