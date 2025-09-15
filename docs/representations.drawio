@@ -91,6 +91,18 @@
         <mxCell id="bhVvfPVycpRIn36rSQ9i-23" value="Subspace" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="395" y="110" width="80" height="30" as="geometry" />
         </mxCell>
+        <mxCell id="bhVvfPVycpRIn36rSQ9i-24" value="í ½í´µ" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="260" y="180" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="bhVvfPVycpRIn36rSQ9i-25" value="í ½í´´" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="260" y="210" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="bhVvfPVycpRIn36rSQ9i-26" value="í ½í´µ" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="210" y="150" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="bhVvfPVycpRIn36rSQ9i-27" value="&lt;sup&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;í ½í´´&lt;/span&gt;&lt;b&gt;+&lt;/b&gt;&lt;/sup&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="210" y="170" width="50" height="30" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
