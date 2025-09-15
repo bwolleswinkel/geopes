@@ -115,7 +115,7 @@
         <mxCell id="bhVvfPVycpRIn36rSQ9i-34" value="convhull(&lt;b&gt;&lt;i style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 153, 51));&quot;&gt;V&lt;/i&gt;&lt;/b&gt;)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="270" y="520" width="80" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="bhVvfPVycpRIn36rSQ9i-35" value="&lt;b&gt;頎巾创&lt;/b&gt;&lt;sup&gt;&lt;b&gt;+&lt;/b&gt;&lt;/sup&gt;&amp;nbsp;H-representation&amp;nbsp;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+        <mxCell id="bhVvfPVycpRIn36rSQ9i-35" value="&lt;b&gt;&lt;u&gt;頎巾创&lt;/u&gt;&lt;/b&gt;&lt;sup&gt;&lt;b&gt;+&lt;/b&gt;&lt;/sup&gt;&amp;nbsp;H-representation&amp;nbsp;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="435" y="400" width="140" height="30" as="geometry" />
         </mxCell>
         <mxCell id="bhVvfPVycpRIn36rSQ9i-36" value="&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 153, 51));&quot;&gt;&lt;b&gt;&lt;i&gt;A&lt;/i&gt;&lt;/b&gt;&lt;sub&gt;eq&lt;/sub&gt;&lt;/span&gt;&lt;span style=&quot;font-weight: bold; color: rgba(0, 0, 0, 0);&quot;&gt;x &lt;/span&gt;&lt;span style=&quot;color: rgba(0, 0, 0, 0);&quot;&gt;=&lt;/span&gt;&lt;b&gt; &lt;i style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 153, 51));&quot;&gt;b&lt;/i&gt;&lt;/b&gt;&lt;sub style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 153, 51));&quot;&gt;eq&lt;/sub&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
@@ -127,7 +127,7 @@
         <mxCell id="bhVvfPVycpRIn36rSQ9i-38" value="頎巾繝" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="415" y="140" width="40" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="bhVvfPVycpRIn36rSQ9i-39" value="&lt;sup&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;頎巾创&lt;/span&gt;&lt;sup&gt;&lt;b&gt;+&lt;/b&gt;&lt;/sup&gt;&lt;/sup&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+        <mxCell id="bhVvfPVycpRIn36rSQ9i-39" value="&lt;sup&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;&lt;u&gt;頎巾创&lt;/u&gt;&lt;/span&gt;&lt;sup&gt;&lt;b&gt;+&lt;/b&gt;&lt;/sup&gt;&lt;/sup&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="455" y="140" width="40" height="30" as="geometry" />
         </mxCell>
         <mxCell id="bhVvfPVycpRIn36rSQ9i-40" value="&lt;sup&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;頎巾创&lt;/span&gt;&lt;sup&gt;&lt;b&gt;+&lt;/b&gt;&lt;/sup&gt;&lt;/sup&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
@@ -139,7 +139,7 @@
         <mxCell id="bhVvfPVycpRIn36rSQ9i-42" value="頎巾繝" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="470" y="220" width="40" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="bhVvfPVycpRIn36rSQ9i-43" value="&lt;sup&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;頎巾创&lt;/span&gt;&lt;sup&gt;&lt;b&gt;+&lt;/b&gt;&lt;/sup&gt;&lt;/sup&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+        <mxCell id="bhVvfPVycpRIn36rSQ9i-43" value="&lt;sup&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;&lt;u&gt;頎巾创&lt;/u&gt;&lt;/span&gt;&lt;sup&gt;&lt;b&gt;+&lt;/b&gt;&lt;/sup&gt;&lt;/sup&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="500" y="220" width="40" height="30" as="geometry" />
         </mxCell>
         <mxCell id="bhVvfPVycpRIn36rSQ9i-45" value="頎巾礃 Embedding dimension" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
