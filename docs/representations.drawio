@@ -333,6 +333,9 @@
         <mxCell id="mH9Vk3suo3B38uX2HfqW-4" value="Zonotope" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="250" y="80" width="70" height="30" as="geometry" />
         </mxCell>
+        <mxCell id="rb81FGsQS5S4_97PebZw-1" value="Mikowski sum" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="10" y="180" width="100" height="30" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
