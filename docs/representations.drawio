@@ -40,6 +40,9 @@
         <mxCell id="bhVvfPVycpRIn36rSQ9i-4" value="&lt;b&gt;A&lt;/b&gt;&lt;sub&gt;eq&lt;/sub&gt;&lt;span style=&quot;font-weight: bold; color: rgba(0, 0, 0, 0);&quot;&gt;x &lt;/span&gt;&lt;span style=&quot;color: rgba(0, 0, 0, 0);&quot;&gt;=&lt;/span&gt;&lt;b&gt; b&lt;/b&gt;&lt;sub&gt;eq&lt;/sub&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="275" y="370" width="80" height="30" as="geometry" />
         </mxCell>
+        <mxCell id="bhVvfPVycpRIn36rSQ9i-5" value="&lt;b&gt;í ½í´µ&lt;/b&gt; V-representation&amp;nbsp;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="115" y="430" width="130" height="30" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
