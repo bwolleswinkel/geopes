@@ -295,6 +295,12 @@
         <mxCell id="bhVvfPVycpRIn36rSQ9i-120" value="&lt;b&gt;&lt;u&gt;⚪️&lt;/u&gt;&lt;/b&gt;&lt;b&gt;&lt;sup&gt;0&lt;/sup&gt;&lt;/b&gt;&lt;span style=&quot;font-size: 8.333333px;&quot;&gt;&lt;sup&gt;∞&lt;/sup&gt;&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="500" y="130" width="50" height="30" as="geometry" />
         </mxCell>
+        <mxCell id="bhVvfPVycpRIn36rSQ9i-121" value="&lt;i style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 153, 51));&quot;&gt;r&lt;sub&gt;1&lt;/sub&gt;&lt;/i&gt; = 0, &lt;i style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 153, 51));&quot;&gt;r&lt;sub&gt;j&lt;/sub&gt;&lt;/i&gt; =&amp;nbsp;&lt;span style=&quot;font-size: 6.944444px;&quot;&gt;∞&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="640" y="28" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="bhVvfPVycpRIn36rSQ9i-124" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1.015;entryY=0.708;entryDx=0;entryDy=0;entryPerimeter=0;curved=1;strokeColor=light-dark(#000000,#67AB9F);" edge="1" parent="1" source="bhVvfPVycpRIn36rSQ9i-121" target="bhVvfPVycpRIn36rSQ9i-120">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
