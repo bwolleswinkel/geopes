@@ -261,23 +261,23 @@ class Polytope(ConvexRegion):
     
     @property
     def dim(self):
-        """The dimension of the polytope itself, which can be different (i.e., equal or smaller) from the ambient space dimension.
-         
-        """
+        """The dimension of the polytope itself, which can be different (i.e., equal or smaller) from the ambient space dimension."""
         raise NotImplementedError
     
     @property
     def vol(self):
-        """Compute the volume of the polytope.
-        
-        """
+        """Compute the volume of the polytope."""
         if self._vol is None:
             ...
         raise NotImplementedError
     
     @property
     def edges(self) -> list[tuple[ArrayLike, ArrayLike]]:
-        """Compute the edges of the polytope."""
+        """Compute the edges of the polytope.
+        
+        ### FIXME: How do we want to represent edges? As a list of tuples of vertices? Or as a D x n x 2 Numpy array, where D is the number of edges, n is the dimension of the space, and 2 is the two endpoints of the edge?
+
+        """
         raise NotImplementedError
     
     def __abs__(self) -> float:
@@ -568,6 +568,10 @@ class Polytope(ConvexRegion):
             If the polytope cannot be converted to a zonotope, i.e., if it is not a zonotope.
 
         """
+        raise NotImplementedError
+    
+    def to_graph(self):
+        """Convert the polytope to a Hasse diagram."""
         raise NotImplementedError
     
     def to_H_repr(self, in_place: bool = True) -> None | Polytope:
