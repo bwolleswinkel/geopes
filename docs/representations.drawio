@@ -256,6 +256,15 @@
         <mxCell id="bhVvfPVycpRIn36rSQ9i-105" value="⚪️" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="805" y="120" width="40" height="30" as="geometry" />
         </mxCell>
+        <mxCell id="bhVvfPVycpRIn36rSQ9i-106" value="&lt;u&gt;⚪️&lt;/u&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="950" y="180" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="bhVvfPVycpRIn36rSQ9i-107" value="&lt;b&gt;&lt;u&gt;⚪️&lt;/u&gt;&lt;/b&gt; Semi-axis representation" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="740" y="568" width="180" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="bhVvfPVycpRIn36rSQ9i-108" value="&lt;b&gt;&lt;i style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 153, 51));&quot;&gt;c&lt;/i&gt;&lt;/b&gt;, {&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 153, 51));&quot;&gt;&lt;i style=&quot;color: rgb(255, 153, 51);&quot;&gt;r&lt;/i&gt;&lt;span style=&quot;color: rgb(255, 153, 51);&quot;&gt;&lt;sub&gt;1&lt;/sub&gt;&lt;/span&gt;&lt;/span&gt;,&amp;nbsp;&lt;i style=&quot;caret-color: rgb(255, 153, 51); color: rgb(255, 153, 51);&quot;&gt;r&lt;/i&gt;&lt;span style=&quot;caret-color: rgb(255, 153, 51); color: rgb(255, 153, 51);&quot;&gt;&lt;sub&gt;2&lt;/sub&gt;&lt;/span&gt;, ...}" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="965" y="520" width="90" height="30" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
