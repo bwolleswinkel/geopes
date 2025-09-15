@@ -194,6 +194,7 @@ class Polytope(ConvexRegion):
                     ### FIXME: I know this is redundant, but I want to keep the structure similar to above for now
                     raise ValueError("Cannot provide both V and F or g.")
                 ...
+        ### NOTE: We also need an 'empty' constructor, i.e., Polytope(), because for instance, for a Zonotope, do we also want to have lazy setters and getters? In that case, both the H- and V-representation are None, and only when the user tries to access them, we compute them.
         else:
             raise ValueError("Invalid arguments. Use Polytope(F, g) or Polytope(V=V).")
         
@@ -606,8 +607,13 @@ class Polytope(ConvexRegion):
 
 
 class Zonotope(Polytope):
-    """The zonotope class which implements a zonotope `zono` = {c + Gz ∈ ℝ^n | ‖z‖_∞ ≤ 1}."""
+    """The zonotope class which implements a zonotope `zono` = {c + Gz ∈ ℝ^n | ‖z‖_∞ ≤ 1}.
+    
+    ### NOTE: A zonotope can also be constructed as the Minkowski sum of line segments of V. So we should also have a constructor method for that. Wait, maybe this is the same as G?
 
+    ### FIXME: We should call the G-representation the generator representation
+
+    """
     def __init__(self, G: ArrayLike, c: ArrayLike):
         """Construct a zonotope with generator matrix `G` and center `c`.
         
@@ -619,8 +625,9 @@ class Zonotope(Polytope):
             The center of the zonotope.
         
         """
+        self.G_repr: bool = True
         self.G = G
-        self.c = c
+        self.c = c  ### FIXME: Does a center differ from a centroid? If so, should we not use abbreviations?
         # FIXME: Convert (G, c) into a halfspace representation (A, b)
         super().__init__(self.G + 1, self.c - 1)
 
@@ -645,6 +652,8 @@ class Box(Zonotope):
 
 class Cube(Zonotope):
     """A n-cube is a special type of zonotope, where all edges have the same length.
+
+    ### FIXME: I don't know if we actually want to use this class.
     
     """
 
@@ -1374,6 +1383,12 @@ def quotient(subs_1: Polytope, subs_2: Polytope) -> QuotientSpace:
 
 class Ellipsoid(ConvexRegion):
     """The ellipsoid class which implements an ellipsoid `ell` = {x ∈ ℝ^n | (x - c)^T P^-1 (x - c) ≤ α}.
+
+    ### NOTE: According to "Constrained zonotopes: A new tool for set-based estimation and fault detection," there is also the definition {Qx + c | ‖x‖_2 ≤ a}. Ohh nevermind, this is for DEGENERATE ellipsoids, where P is not invertible. But this is super important, as this is another representation!
+
+    References
+    ----------
+    [1] Alexander, A., Valyi, I. (1997). "Ellipsoidal Calculus for Estimation and Control," ...
     
     """
 
