@@ -314,12 +314,24 @@
     </mxGraphModel>
   </diagram>
   <diagram id="Nq3S1MKWC2yrXxO9b4SR" name="operations">
-    <mxGraphModel dx="1002" dy="596" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="477" dy="284" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="mH9Vk3suo3B38uX2HfqW-1" value="" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="150" y="70" width="310" height="60" as="geometry" />
+        </mxCell>
         <mxCell id="-VZsUaaqvNUyKNQX2x1N-1" value="Polytope" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="155" y="78" width="70" height="30" as="geometry" />
+          <mxGeometry x="150" y="70" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="mH9Vk3suo3B38uX2HfqW-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="mH9Vk3suo3B38uX2HfqW-1" target="mH9Vk3suo3B38uX2HfqW-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mH9Vk3suo3B38uX2HfqW-3" value="" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="250" y="80" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="mH9Vk3suo3B38uX2HfqW-4" value="Zonotope" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="250" y="80" width="70" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
