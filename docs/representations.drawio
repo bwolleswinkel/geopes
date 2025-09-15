@@ -77,7 +77,10 @@
           <mxGeometry x="235" y="540" width="110" height="30" as="geometry" />
         </mxCell>
         <mxCell id="bhVvfPVycpRIn36rSQ9i-18" value="⨁{&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 153, 51));&quot;&gt;&lt;b&gt;&lt;i&gt;v&lt;/i&gt;&lt;/b&gt;&lt;sub&gt;1&lt;/sub&gt;&lt;/span&gt;,&amp;nbsp;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 153, 51));&quot;&gt;&lt;b&gt;&lt;i&gt;v&lt;/i&gt;&lt;/b&gt;&lt;sub&gt;2&lt;/sub&gt;&lt;/span&gt;, ...}" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="135" y="570" width="90" height="30" as="geometry" />
+          <mxGeometry x="245" y="570" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="bhVvfPVycpRIn36rSQ9i-19" value="&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(234, 107, 102));&quot;&gt;I THINK THESE ARE THE SAME?&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="355" y="555" width="210" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
