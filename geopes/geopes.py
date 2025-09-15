@@ -275,6 +275,11 @@ class Polytope(ConvexRegion):
             ...
         raise NotImplementedError
     
+    @property
+    def edges(self) -> list[tuple[ArrayLike, ArrayLike]]:
+        """Compute the edges of the polytope."""
+        raise NotImplementedError
+    
     def __abs__(self) -> float:
         """Implements the magic method for the absolute value operator `abs` as the volume of the polytope.
 
