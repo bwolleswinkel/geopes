@@ -363,6 +363,9 @@
         <mxCell id="IxA32AjbfCcQxxSfIfEp-9" value="Matrix multiplication" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="40" y="350" width="130" height="30" as="geometry" />
         </mxCell>
+        <mxCell id="IxA32AjbfCcQxxSfIfEp-10" value="&lt;span style=&quot;caret-color: rgb(255, 153, 51); font-family: &amp;quot;Courier New&amp;quot;; white-space: pre; color: light-dark(rgb(0, 0, 0), rgb(255, 153, 51)); background-color: light-dark(rgb(0, 0, 0), rgb(26, 26, 26));&quot;&gt;@&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="220" y="350" width="30" height="30" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
