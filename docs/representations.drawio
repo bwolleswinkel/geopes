@@ -103,6 +103,12 @@
         <mxCell id="bhVvfPVycpRIn36rSQ9i-27" value="&lt;sup&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;í ½í´´&lt;/span&gt;&lt;b&gt;+&lt;/b&gt;&lt;/sup&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="210" y="170" width="50" height="30" as="geometry" />
         </mxCell>
+        <mxCell id="bhVvfPVycpRIn36rSQ9i-28" value="" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=none;dashed=1;dashPattern=8 8;strokeColor=light-dark(#000000,#67AB9F);" vertex="1" parent="1">
+          <mxGeometry x="420" y="210" width="170" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="bhVvfPVycpRIn36rSQ9i-29" value="Trivial" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="420" y="210" width="60" height="30" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
