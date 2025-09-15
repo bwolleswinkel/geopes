@@ -4,28 +4,28 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="Ps6-nFHQN6LXRxoJmPA9-1" value="" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=none;" vertex="1" parent="1">
+        <mxCell id="Ps6-nFHQN6LXRxoJmPA9-1" value="" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="70" y="110" width="240" height="170" as="geometry" />
         </mxCell>
-        <mxCell id="Ps6-nFHQN6LXRxoJmPA9-3" value="" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=none;" vertex="1" parent="1">
+        <mxCell id="Ps6-nFHQN6LXRxoJmPA9-3" value="" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="210" y="120" width="90" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="Ps6-nFHQN6LXRxoJmPA9-4" value="Polytope" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+        <mxCell id="Ps6-nFHQN6LXRxoJmPA9-4" value="Polytope" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="70" y="110" width="70" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="Ps6-nFHQN6LXRxoJmPA9-5" value="Zonotope" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+        <mxCell id="Ps6-nFHQN6LXRxoJmPA9-5" value="Zonotope" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="210" y="120" width="70" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="Ps6-nFHQN6LXRxoJmPA9-6" value="" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=none;dashed=1;dashPattern=8 8;strokeColor=light-dark(#000000,#EA6B66);" vertex="1" parent="1">
+        <mxCell id="Ps6-nFHQN6LXRxoJmPA9-6" value="" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=none;dashed=1;dashPattern=8 8;strokeColor=light-dark(#000000,#EA6B66);" parent="1" vertex="1">
           <mxGeometry x="90" y="150" width="170" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="Ps6-nFHQN6LXRxoJmPA9-8" value="Type-0" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+        <mxCell id="Ps6-nFHQN6LXRxoJmPA9-8" value="Type-0" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="90" y="150" width="60" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="Ps6-nFHQN6LXRxoJmPA9-9" value="" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=none;dashed=1;dashPattern=8 8;strokeColor=light-dark(#000000,#EA6B66);" vertex="1" parent="1">
+        <mxCell id="Ps6-nFHQN6LXRxoJmPA9-9" value="" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=none;dashed=1;dashPattern=8 8;strokeColor=light-dark(#000000,#EA6B66);" parent="1" vertex="1">
           <mxGeometry x="90" y="210" width="90" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="Ps6-nFHQN6LXRxoJmPA9-10" value="Type-∞" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+        <mxCell id="Ps6-nFHQN6LXRxoJmPA9-10" value="Type-∞" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="90" y="210" width="60" height="30" as="geometry" />
         </mxCell>
       </root>
