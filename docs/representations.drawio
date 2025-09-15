@@ -292,6 +292,9 @@
         <mxCell id="bhVvfPVycpRIn36rSQ9i-119" value="&lt;b&gt;&lt;i style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 153, 51));&quot;&gt;c&lt;/i&gt;&lt;/b&gt;, {, ..., &lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 153, 51));&quot;&gt;&lt;i&gt;r&lt;/i&gt;&lt;span&gt;&lt;sub&gt;&lt;i&gt;j&lt;/i&gt;&lt;/sub&gt;&lt;/span&gt;&lt;/span&gt;,&amp;nbsp;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 153, 51));&quot;&gt;&lt;i style=&quot;caret-color: rgb(255, 153, 51);&quot;&gt;r&lt;/i&gt;&lt;span style=&quot;caret-color: rgb(255, 153, 51);&quot;&gt;&lt;sub&gt;&lt;i&gt;j&lt;/i&gt;+1&lt;/sub&gt;&lt;/span&gt;&lt;/span&gt;, ...}" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="955" y="725" width="120" height="30" as="geometry" />
         </mxCell>
+        <mxCell id="bhVvfPVycpRIn36rSQ9i-120" value="&lt;b&gt;&lt;u&gt;⚪️&lt;/u&gt;&lt;/b&gt;&lt;b&gt;&lt;sup&gt;0&lt;/sup&gt;&lt;/b&gt;&lt;span style=&quot;font-size: 8.333333px;&quot;&gt;&lt;sup&gt;∞&lt;/sup&gt;&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="500" y="130" width="50" height="30" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
