@@ -305,7 +305,7 @@
           <mxGeometry x="435" y="540" width="140" height="30" as="geometry" />
         </mxCell>
         <mxCell id="bhVvfPVycpRIn36rSQ9i-129" value="&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 153, 51));&quot;&gt;&lt;b&gt;&lt;i&gt;I&lt;/i&gt;&lt;/b&gt;&lt;/span&gt;&lt;span style=&quot;font-weight: bold; color: rgba(0, 0, 0, 0);&quot;&gt;x &lt;/span&gt;&lt;span style=&quot;color: rgba(0, 0, 0, 0);&quot;&gt;=&lt;/span&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;span style=&quot;font-weight: bold; color: light-dark(rgb(0, 0, 0), rgb(255, 153, 51));&quot;&gt;0&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="590" y="560" width="50" height="30" as="geometry" />
+          <mxGeometry x="585" y="560" width="50" height="30" as="geometry" />
         </mxCell>
         <mxCell id="bhVvfPVycpRIn36rSQ9i-130" value="&lt;b&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 153, 51));&quot;&gt;0&lt;/span&gt;&lt;/b&gt;&lt;span style=&quot;color: rgba(0, 0, 0, 0);&quot;&gt;&lt;b&gt;&lt;i&gt;x&lt;/i&gt;&lt;/b&gt;&amp;nbsp;&lt;/span&gt;≤&amp;nbsp;&lt;b&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 153, 51));&quot;&gt;0&lt;/span&gt;&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="580" y="530" width="60" height="30" as="geometry" />
