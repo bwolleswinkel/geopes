@@ -61,6 +61,8 @@ which one is best?
 
 ### FIXME: As Gabriel said, storing vertices in high dimesnions, e.g., 1000, is prohibitive as they grow exponentially (the number of them)
 
+### TODO: In a `config.py` file, apart from `RTOL` and `ATOL`, we need to also have a function `set_print_options`, which sets the print options for numpy, scipy, and maybe also for cvxpy (if possible). Also, maybe add a `verbose` flag in there as well? And have everything use `config.VERBOSE`!
+
 """
 
 from __future__ import annotations
