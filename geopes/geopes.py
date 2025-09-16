@@ -157,9 +157,7 @@ class Polytope(ConvexRegion):
         
         Note that the above are all valid constructors for a polytope.
 
-        Example of a link: `Google Python Style Guide`_.
-
-        .. _Google Python Style Guide: https://arxiv.org/abs/1803.08669
+        Example of a link: `name of link<https://arxiv.org/abs/1803.08669>`__.
         
         """
         self.H_repr: bool = True   ### FIXME: Should this be `is_H_repr` instead?
