@@ -65,6 +65,8 @@ which one is best?
 
 ### TODO: For lazy properties, check out https://stackoverflow.com/questions/3012421/python-memoising-deferred-lookup-property-decorator, they have a `@lazy_property` decorator
 
+### TODO: Also check out the walrus operator `:=`, https://realpython.com/python-walrus-operator/, which can be really clean for local variables and flags in loops
+
 """
 
 from __future__ import annotations
@@ -120,7 +122,7 @@ class Polytope(ConvexRegion):
     
     """
 
-    def __init__(self, F: ArrayLike = None, g: ArrayLike = None, *, F_eq: ArrayLike = None, g_eq: ArrayLike = None):
+    def __init__(self, A: ArrayLike | None, b: ArrayLike | None, verts: ArrayLike | None = None, *, A_eq: ArrayLike | None = None, b_eq: ArrayLike | None = None, rays: ArrayLike | None = None, min_repr: bool = True) -> None:
         """Initialize a Polytope object (see class for description) based on either a H-representation or a V-representation.
 
         ### NOTE: Using the `*` in the argument list forces the user to use keyword arguments for `F_ineq` and `g_ineq`, which makes it clear that these are not positional arguments.
@@ -143,13 +145,13 @@ class Polytope(ConvexRegion):
 
         import modules
         
-        >>> F = np.array([[1, 0], [0, 1], [-1, 0], [0, -1]])
-        >>> g = np.array([1, 1, 1, 1])
+        >>> A = np.array([[1, 0], [0, 1], [-1, 0], [0, -1]])
+        >>> b = np.array([1, 1, 1, 1])
         >>> V = np.array([[1, 1], [-1, 1], [-1, -1], [1, -1]])
 
         vertices representation
 
-        >>> poly_1 = gp.poly(F, g)
+        >>> poly_1 = gp.poly(A, b)
         >>> poly_2 = gp.Polytope(V)
         >>> poly_3 = gp.poly(verts=V)
         
@@ -158,8 +160,8 @@ class Polytope(ConvexRegion):
         """
         self.H_repr: bool = True   ### FIXME: Should this be `is_H_repr` instead?
         self.V_repr: bool = False   ### FIXME: Is this not redundant, as this will always coincide with self.verts being not None?
-        self._F: ArrayLike | None = F
-        self._g: ArrayLike | None = g
+        self._A: ArrayLike | None = A
+        self._g: ArrayLike | None = b
         self._F_eq: ArrayLike | None = None
         self._g_eq: ArrayLike | None = None
         self._verts: ArrayLike | None = None
@@ -168,7 +170,7 @@ class Polytope(ConvexRegion):
         self._cheb_r: ArrayLike | None = None
         self._vol: float | None  = None
         self._com: ArrayLike | None = None   ### FIXME: Center of mass of the polytope. This should be called the centroid, right?
-        self._n: int = F.shape[1]  ### FIXME: Placeholder
+        self._n: int = A.shape[1]  ### FIXME: Placeholder
         self.is_degen: bool | None = None  ### FIXME: Not that we have two types of degeneracy, whenever self.vol = 0 (type I degeneracy), or when self.vol = np.inf (type II degeneracy). Should `self.is_degen` therefore be a flag or give two different values?
         ### FIXME: Also look into "Representation of unbounded polytopes" from wikipedia, about vertex representation with 'bounding rays', seems quite interesting. This is yet another representation of polytopes, which is neither H- nor V-representation.
         self.is_min_repr: bool | None = None  ### FIXME: This should also maybe be the flag `is_min_repr` instead?
@@ -176,8 +178,8 @@ class Polytope(ConvexRegion):
         ### FIXME: This method should dispatch to either private method `_init_H_repr`` or `_init_V_repr`` based on the input arguments
         # TEMP: This is just a placeholder
         #
-        args = (F, g)
-        kwargs = {'F_eq': F_eq, 'g_eq': g_eq}
+        args = (A, b)
+        kwargs = {'F_eq': A_eq, 'g_eq': b_eq}
         #
         if len(args) == 2:
             if 'V' in kwargs:
@@ -219,13 +221,13 @@ class Polytope(ConvexRegion):
     @property
     def F(self):
         if not self.H_repr:
-            self._F, self._g = hrepr(self)
-        return self._F
+            self._A, self._g = hrepr(self)
+        return self._A
     
     @property
     def g(self):
         if not self.H_repr:
-            (self._F, self._g), self.H_repr = hrepr(self), True
+            (self._A, self._g), self.H_repr = hrepr(self), True
         return self._g
     
     @property
@@ -255,7 +257,7 @@ class Polytope(ConvexRegion):
         ### FIXME: Should return a value based on the representation of the polytope, i.e., if H-repr, then F.shape[1], if V-repr, then verts.shape[1].
          
         """
-        return self._F.shape[1]  # FIXME: Placeholder
+        return self._A.shape[1]  # FIXME: Placeholder
     
     @n.setter
     def n(self, value: int):
@@ -456,7 +458,7 @@ class Polytope(ConvexRegion):
     
     def __repr__(self) -> str:
         """Debug print the polytope."""
-        return f"{self.__class__.__name__}(A.shape={self._F.shape}, A.dtype={self._F.dtype}, b.shape={self._g.shape}, verts.shape={self._verts.shape if self.V_repr else None}, n={self.n}, min_repr={self.is_min_repr}, is_empty={self.is_empty})"
+        return f"{self.__class__.__name__}(A.shape={self._A.shape}, A.dtype={self._A.dtype}, b.shape={self._g.shape}, verts.shape={self._verts.shape if self.V_repr else None}, n={self.n}, min_repr={self.is_min_repr}, is_empty={self.is_empty})"
     
     def __format__(self, format_spec: Any) -> str:
         if format_spec == 'fancy':
