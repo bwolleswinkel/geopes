@@ -461,6 +461,8 @@ class Polytope(ConvexRegion):
     def __format__(self, format_spec: Any) -> str:
         if format_spec == 'fancy':
             return "\n------ FANCY ------\n"+ f"Polytope in ℝ^{self.n} with H-representation F ∈ ℝ^{{{self.F.shape[0]} x {self.F.shape[1]}}}, g ∈ ℝ^{self.g.shape[0]}, V-representation with {self.verts.shape[0] if self.V_repr else None} vertices, volume ...," + "\n------ FANCY ------" 
+        elif format_spec == 'debug':
+            raise NotImplementedError
         else:
             return super().__format__(format_spec)
     
