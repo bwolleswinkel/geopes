@@ -156,6 +156,10 @@ class Polytope(ConvexRegion):
         >>> poly_3 = gp.poly(verts=V)
         
         Note that the above are all valid constructors for a polytope.
+
+        Example of a link: `Google Python Style Guide`_.
+
+        .. _Google Python Style Guide: https://arxiv.org/abs/1803.08669
         
         """
         self.H_repr: bool = True   ### FIXME: Should this be `is_H_repr` instead?
