@@ -530,8 +530,10 @@ class Polytope(ConvexRegion):
         """
         match type:
             case 'deepcopy':
-                raise NotImplementedError   ### FIXME: Here, we actually need to implement HOW the deepcopying is done...
-            case 'copy':
+                return copy.deepcopy(self)
+            case 'shallow':
+                return copy.copy(self)
+            case 'reference':
                 return self
             case _:
                 raise ValueError(f"Unrecognized copy type '{type}'")
