@@ -931,7 +931,7 @@ def distance(poly_1: Polytope, poly_2: Polytope, type: str = 'shortest') -> floa
         case 'hausdorff':
             raise NotImplementedError
         case 'average':
-            raise NotImplementedErrorf
+            raise NotImplementedError
         case 'centroid':
             raise NotImplementedError
         case _:
