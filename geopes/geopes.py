@@ -727,6 +727,8 @@ def bounds_to_poly(lb: ArrayLike, ub: ArrayLike) -> Box:
 
 def norm_to_poly(norm: float, n: int, p: float | str = 'inf') -> Polytope | Ellipsoid:
     """Convert the norm {x ∈ ℝ^n | ‖x‖_p ≤ norm} to a polytope (or, a Sphere, if the two-norm is selected).
+
+    ### FIXME: Should be called `norm_to_region` instead, as it can return both a Polytope and an Ellipsoid?
     
     Parameters
     ----------
@@ -930,6 +932,8 @@ def distance(poly_1: Polytope, poly_2: Polytope, type: str = 'shortest') -> floa
             raise NotImplementedError
         case 'average':
             raise NotImplementedErrorf
+        case 'centroid':
+            raise NotImplementedError
         case _:
             raise ValueError(f"Unrecognized distance type '{type}'")
 
@@ -1238,6 +1242,8 @@ def is_adjacent(poly_1: Polytope, poly_2: Polytope) -> bool:
     """Check if two polytopes are adjacent, i.e., if they share a common facet.
 
     ### FIXME: Directly copied from `polytope` package
+
+    ### NOTE: This should be handy for a `Partition` class, where we want to know which polytopes are adjacent to each other.
     
     """
     raise NotImplementedError
