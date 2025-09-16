@@ -70,7 +70,7 @@ which one is best?
 from __future__ import annotations
 from abc import ABC, abstractmethod
 import copy
-from typing import Callable
+from typing import Any, Callable
 import warnings
 
 import numpy as np
@@ -456,7 +456,13 @@ class Polytope(ConvexRegion):
     
     def __repr__(self) -> str:
         """Debug print the polytope."""
-        return f"{self.__class__.__name__}(A.shape={self._F.shape}, b.shape={self._g.shape}, verts.shape={self._verts.shape if self.V_repr else None}, n={self.n}, min_repr={self.is_min_repr}, is_empty={self.is_empty})"
+        return f"{self.__class__.__name__}(A.shape={self._F.shape}, A.dtype={self._F.dtype}, b.shape={self._g.shape}, verts.shape={self._verts.shape if self.V_repr else None}, n={self.n}, min_repr={self.is_min_repr}, is_empty={self.is_empty})"
+    
+    def __format__(self, format_spec: Any) -> str:
+        if format_spec == 'fancy':
+            return "\n------ FANCY ------\n"+ f"Polytope in ℝ^{self.n} with H-representation F ∈ ℝ^{{{self.F.shape[0]} x {self.F.shape[1]}}}, g ∈ ℝ^{self.g.shape[0]}, V-representation with {self.verts.shape[0] if self.V_repr else None} vertices, volume ...," + "\n------ FANCY ------" 
+        else:
+            return super().__format__(format_spec)
     
     def __array_ufunc__(self, ufunc, method, other, *args, **kwargs) -> Polytope:
         """Magic method which gets called if the `other` object is a Numpy array. Depending on what operation to perform, we do different stuff.
@@ -1782,7 +1788,7 @@ def pretty_print(obj: Polytope | Ellipsoid | Subspace) -> str:
     """Pretty print the object `obj`. Used as a helper function for the `__str__` method, as this method can get really verbose.
     
     """
-    return repr(obj)  ### FIXME: Placeholder
+    return f"{obj.__class__.__name__} in ℝ^{obj.n}"
 
 
 def is_in(obj_1: ArrayLike | Polytope | Ellipsoid | Subspace | cvx.Variable | cvx.atoms.affine.index.index, obj_2: Polytope | Ellipsoid | Subspace) -> bool | cvx.Constraint:
@@ -1819,6 +1825,7 @@ def main():
     poly = Polytope(A, b)
 
     print(poly)
+    print(f"Poly: {poly:fancy}")
     print(repr(poly))
 
     # Here we can also write MPC
