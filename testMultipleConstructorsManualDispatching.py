@@ -1,3 +1,5 @@
+"""A class with multiple constructors, manually dispatching based on arguments."""
+
 class Bar:
     """A dummy class for demonstration."""
     def __init__(self, value):
@@ -89,25 +91,10 @@ class Foo:
     
 
 # Example usage
-bar1 = Bar(10)
-bar2 = Bar(20)
+A, b, V = Bar(0), Bar(1), Bar(True)
 
 # All valid constructor calls now work and dispatch to the correct helper
-foo_ab_pos = Foo(bar1, bar2, extra='data')
-print(f"Extra data from positional args: {foo_ab_pos.extra_args}")
-print(f"Accessing V: {foo_ab_pos.V}")
-print("-" * 20)
-
-foo_v_pos = Foo(Bar(30), extra='data')
-print(f"Extra data from positional args: {foo_v_pos.extra_args}")
-print(f"Accessing A: {foo_v_pos.A}")
-print("-" * 20)
-
-foo_ab_kw = Foo(A=bar1, b=bar2, extra='data')
-print(f"Extra data from keyword args: {foo_ab_kw.extra_args}")
-print(f"Accessing V: {foo_ab_kw.V}")
-print("-" * 20)
-
-foo_v_kw = Foo(V=Bar(40), extra='data')
-print(f"Extra data from keyword args: {foo_v_kw.extra_args}")
-print(f"Accessing A: {foo_v_kw.A}")
+foo_ab_pos = Foo(A, b)
+foo_v_pos = Foo(V, extra='data')
+foo_ab_kw = Foo(A=A, b=b, extra='data')
+foo_v_kw = Foo(V=V)

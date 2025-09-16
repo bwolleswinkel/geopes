@@ -63,6 +63,8 @@ which one is best?
 
 ### TODO: In a `config.py` file, apart from `RTOL` and `ATOL`, we need to also have a function `set_print_options`, which sets the print options for numpy, scipy, and maybe also for cvxpy (if possible). Also, maybe add a `verbose` flag in there as well? And have everything use `config.VERBOSE`!
 
+### TODO: For lazy properties, check out https://stackoverflow.com/questions/3012421/python-memoising-deferred-lookup-property-decorator, they have a `@lazy_property` decorator
+
 """
 
 from __future__ import annotations
