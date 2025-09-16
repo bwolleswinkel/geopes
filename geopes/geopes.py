@@ -1159,7 +1159,7 @@ def convex_union(poly_1: Polytope, poly_2: Polytope) -> Polytope:
 
 
 def convex_set_diff(poly_1: Polytope, poly_2: Polytope, method: str = 'max_volume') -> Polytope:
-    """Return the 'set difference' of two polytopes `poly_1` \ `poly_2` = {x ∈ ℝ^n | x ∈ poly_1, x ∉ poly_2}, making sure this difference is convex.
+    """Return the 'set difference' of two polytopes `poly_1` \\ `poly_2` = {x ∈ ℝ^n | x ∈ poly_1, x ∉ poly_2}, making sure this difference is convex.
 
     ### FIXME: This method might be really wonky, and a bit contrived, so we need to think if this makes any mathematical sense at all...
     
