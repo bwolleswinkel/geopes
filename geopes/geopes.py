@@ -67,6 +67,10 @@ which one is best?
 
 ### TODO: Also check out the walrus operator `:=`, https://realpython.com/python-walrus-operator/, which can be really clean for local variables and flags in loops
 
+### TODO: For the `reduce` or `minimal` representation, where we remove redundant vertices or half-spaces, check out the following tow sources:
+- # FROM: https://www.cs.mcgill.ca/~fukuda/soft/polyfaq/node23.html#polytope:Vredundancy2
+- # FROM: https://www.cs.mcgill.ca/~fukuda/soft/polyfaq/node24.html
+
 """
 
 from __future__ import annotations
