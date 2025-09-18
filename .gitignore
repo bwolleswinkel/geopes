@@ -155,7 +155,7 @@ cython_debug/
 
 # ------ MY FILES ------
 
-scratchpad.py
+*scratchpad*
 *.vscode
 
 # End of https://www.toptal.com/developers/gitignore/api/python,jupyternotebooks
