@@ -38,6 +38,8 @@
 
 ### TODO: Check out "Linear Matrix Inequalities in System and Control Theory," Boyd et al. (1994) specifically 5.2.1 Smallest invariant ellipsoid containing a polytope, and 5.2.2 Largest invariant ellipsoid contained in a polytope
 
+### TODO: Check out "Algorithms for Ellipsoids," Pope (2008), written in Fortran
+
 ### FIXME: What convention do we want for seperate constructors? Do we want to use classmethods, like pandas? So we can have:
     poly = geo.poly_from_verts(verts)  # More similar to numpy?
     poly = geo.verts_to_poly(verts)
