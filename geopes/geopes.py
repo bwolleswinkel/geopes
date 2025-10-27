@@ -36,6 +36,8 @@
 
 ### TODO: Look at conventions for 'set' class in python, on when operations should be methods of functions, or when they should be functions of the package
 
+### TODO: Check out "Linear Matrix Inequalities in System and Control Theory," Boyd et al. (1994) specifically 5.2.1 Smallest invariant ellipsoid containing a polytope, and 5.2.2 Largest invariant ellipsoid contained in a polytope
+
 ### FIXME: What convention do we want for seperate constructors? Do we want to use classmethods, like pandas? So we can have:
     poly = geo.poly_from_verts(verts)  # More similar to numpy?
     poly = geo.verts_to_poly(verts)
