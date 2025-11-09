@@ -40,6 +40,19 @@
 
 ### TODO: Check out "Algorithms for Ellipsoids," Pope (2008), written in Fortran
 
+### TODO: Check out the Julia library "Polyhedra"
+# FROM: https://juliapolyhedra.github.io/Polyhedra.jl/stable/generated/Minimal%20Robust%20Positively%20Invariant%20Set/  # nopep 8
+# FROM: https://www.youtube.com/watch?v=YuxJtvgg6uc  # nopep8
+
+### TODO: Check out the package pycddlib, definitly what we need
+# FROM: https://pycddlib.readthedocs.io/en/stable/quickstart.html
+
+### TODO: Check out `ELL_LIB`, a FORTRAN library for ellipsoidal calculus
+# FROM: https://tcg.mae.cornell.edu/ELL_LIB/
+
+### TODO: Check out the following video about maximal area inscribed rectangles in a ellipsoid
+# FROM: # FROM: https://www.youtube.com/watch?v=1ZfKzv6Bi5k
+
 ### FIXME: What convention do we want for seperate constructors? Do we want to use classmethods, like pandas? So we can have:
     poly = geo.poly_from_verts(verts)  # More similar to numpy?
     poly = geo.verts_to_poly(verts)
