@@ -50,8 +50,9 @@
 ### TODO: Check out `ELL_LIB`, a FORTRAN library for ellipsoidal calculus
 # FROM: https://tcg.mae.cornell.edu/ELL_LIB/
 
-### TODO: Check out the following video about maximal area inscribed rectangles in a ellipsoid
+### TODO: Check out the following video about maximal area inscribed rectangles in a ellipsoid, and about computing maximal points on an ellipsoid.
 # FROM: # FROM: https://www.youtube.com/watch?v=1ZfKzv6Bi5k
+# FROM: https://math.stackexchange.com/questions/995312/maximal-points-on-an-n-dimensional-ellipsoid (computing a maximal element p of an ellipsoid in a given direction)
 
 ### FIXME: What convention do we want for seperate constructors? Do we want to use classmethods, like pandas? So we can have:
     poly = geo.poly_from_verts(verts)  # More similar to numpy?
