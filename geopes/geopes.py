@@ -92,6 +92,9 @@ which one is best?
 
 ### TODO: Also check out the walrus operator `:=`, https://realpython.com/python-walrus-operator/, which can be really clean for local variables and flags in loops
 
+### TODO: Check out the following documentation on how to properly overwrite the ufunc method for numpy arrays, by setting `__array_ufunc__ = None` Also has a full list of operators and names!
+# FROM: https://docs.scipy.org/doc/numpy-1.13.0/neps/ufunc-overrides.html
+
 ### TODO: For the `reduce` or `minimal` representation, where we remove redundant vertices or half-spaces, check out the following tow sources:
 - # FROM: https://www.cs.mcgill.ca/~fukuda/soft/polyfaq/node23.html#polytope:Vredundancy2
 - # FROM: https://www.cs.mcgill.ca/~fukuda/soft/polyfaq/node24.html
