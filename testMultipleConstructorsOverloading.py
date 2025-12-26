@@ -167,5 +167,5 @@ d3 = Foo(A=A, b=b, arg_2=3.14)
 print(d3.__repr__())
 d4 = Foo(V=V)
 print(d4.__repr__())
-# d5 = Foo(A, b, V)
-d6 = Foo(A, b=b, V=V)
+# d5 = Foo(A, b, V)  # NOTE: Raises "TypeError: Foo.__init__() takes either 1 or 2 positional arguments but 3 were given"
+d6 = Foo(A, b=b)  # NOTE: Raises "TypeError: Foo.__init__() got an unexpected keyword argument 'b'"
