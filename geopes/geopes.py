@@ -102,7 +102,6 @@ import warnings
 import numpy as np
 import scipy as sp
 import matplotlib.pyplot as plt
-from matplotlib.axes import Axes
 from numpy.typing import ArrayLike
 import cvxpy as cvx  ### NOTE: I want to make this an optional dependency, as it's not strictly needed for any core functionality
 
@@ -646,7 +645,7 @@ class Polytope(ConvexRegion):
         """
         raise NotImplementedError
     
-    def plot(ax: Axes = None, show: bool = True) -> Axes | None:
+    def plot(ax: plt.Axes = None, show: bool = True) -> plt.Axes | None:
         """Plot the polytope in 1D, 2D, or 3D.  
 
         ### FIXME: Should this be an external method as well? I.e., `geo.plot(poly)`? 
