@@ -1,0 +1,2 @@
+matplotlib  # For plotting
+cvxpy  # For convex optimization

@@ -54,6 +54,8 @@
 # FROM: # FROM: https://www.youtube.com/watch?v=1ZfKzv6Bi5k
 # FROM: https://math.stackexchange.com/questions/995312/maximal-points-on-an-n-dimensional-ellipsoid (computing a maximal element p of an ellipsoid in a given direction)
 
+### TODO: Check out the website 'zenodo' for having a doi for the package
+
 ### FIXME: What convention do we want for seperate constructors? Do we want to use classmethods, like pandas? So we can have:
     poly = geo.poly_from_verts(verts)  # More similar to numpy?
     poly = geo.verts_to_poly(verts)
@@ -99,7 +101,6 @@ import warnings
 
 import numpy as np
 import scipy as sp
-import control as ct
 import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
 from numpy.typing import ArrayLike
@@ -584,9 +585,7 @@ class Polytope(ConvexRegion):
         raise NotImplementedError
     
     def sample(self, seed: int = None, method: str = 'rejection', dist: Callable = None) -> ArrayLike:
-        """Sample a point from the polytope.
-        
-        """
+        """Sample a point from the polytope."""
         match method:
             case 'rejection':
                 bbox = self.bbox()
@@ -595,6 +594,7 @@ class Polytope(ConvexRegion):
                     point = bbox.sample(seed, dist)
                 return point
             case 'hit-and-run':
+                ### TODO: Check out "Convergence properties of hit–and–run samplers", Bélisle et al. (1998)
                 raise NotImplementedError
             case _:
                 raise ValueError(f"Unrecognized sampling method '{method}'")

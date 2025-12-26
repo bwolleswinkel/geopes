@@ -1,0 +1,3 @@
+python
+numpy
+scipy  # For scipy.linalg.null_space() (what about optimization?)
