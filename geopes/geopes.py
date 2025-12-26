@@ -40,12 +40,17 @@
 
 ### TODO: Check out "Algorithms for Ellipsoids," Pope (2008), written in Fortran
 
+### TODO: Check out the software package 'polymake'
+# FROM: https://polymake.org/doku.php/start
+
 ### TODO: Check out the Julia library "Polyhedra"
 # FROM: https://juliapolyhedra.github.io/Polyhedra.jl/stable/generated/Minimal%20Robust%20Positively%20Invariant%20Set/  # nopep 8
 # FROM: https://www.youtube.com/watch?v=YuxJtvgg6uc  # nopep8
 
 ### TODO: Check out the package pycddlib, definitly what we need
+### TODO: Check out the cdd package on 'Komei's Software Page' and 'cdd, cddplus and cddlib homepage'
 # FROM: https://pycddlib.readthedocs.io/en/stable/quickstart.html
+# FROM: https://people.inf.ethz.ch/fukudak/soft/soft.html
 
 ### TODO: Check out `ELL_LIB`, a FORTRAN library for ellipsoidal calculus
 # FROM: https://tcg.mae.cornell.edu/ELL_LIB/
@@ -649,6 +654,7 @@ class Polytope(ConvexRegion):
         """Plot the polytope in 1D, 2D, or 3D.  
 
         ### FIXME: Should this be an external method as well? I.e., `geo.plot(poly)`? 
+        ### TODO: Make it also such that the vertices of the polytope are numbered with the index of the `V` array!
 
         """
         ### FIXME: Do we want lazy imports?
