@@ -651,6 +651,11 @@ class Polytope(ConvexRegion):
         ### FIXME: Should this be an external method as well? I.e., `geo.plot(poly)`? 
 
         """
+        ### FIXME: Do we want lazy imports?
+        try:
+            import matplotlib.pyplot as plt
+        except ImportError as e:
+            raise ImportError("matplotlib is required for plotting polytopes.") from e
         raise NotImplementedError
 
 
