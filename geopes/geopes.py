@@ -104,7 +104,7 @@ which one is best?
 from __future__ import annotations
 from abc import ABC, abstractmethod
 import copy
-from typing import Any, Callable
+from typing import Any, Callable, Literal
 import warnings
 
 import numpy as np
@@ -505,6 +505,9 @@ class Polytope(ConvexRegion):
 
         ### FIXME: Should we split `*args` instead, because I believe it's a tuple of fixed elements?
 
+        ### FIXME: Actually, we should probably just have `__array_func__ = None` such that Python reverts back to the default behavior, see link below.
+        # FROM: https://docs.scipy.org/doc/numpy-1.13.0/neps/ufunc-overrides.html
+
         Parameters
         ----------
         *args : tuple
@@ -591,14 +594,16 @@ class Polytope(ConvexRegion):
         """
         raise NotImplementedError
     
-    def sample(self, seed: int = None, method: str = 'rejection', dist: Callable = None) -> ArrayLike:
+    def sample(self, seed: int = None, method: str = 'rejection', density: Literal['uniform'] | Callable = 'uniform') -> ArrayLike:
         """Sample a point from the polytope."""
         match method:
             case 'rejection':
+                ### TODO: Instead of just having rejection sampling from a uniform distribution, we can also actually have rejection sampling from any other distribution quite easily!
+                ### FROM: https://en.wikipedia.org/wiki/Rejection_sampling
                 bbox = self.bbox()
-                point = bbox.sample(seed, dist)
+                point = bbox.sample(seed, density)
                 while point not in self:
-                    point = bbox.sample(seed, dist)
+                    point = bbox.sample(seed, density)
                 return point
             case 'hit-and-run':
                 ### TODO: Check out "Convergence properties of hit–and–run samplers", Bélisle et al. (1998)
@@ -618,7 +623,8 @@ class Polytope(ConvexRegion):
         raise NotImplementedError
     
     def to_graph(self):
-        """Convert the polytope to a Hasse diagram."""
+        """Convert the polytope to a Hasse diagram"""
+        ### FIXME: Maybe more explicit? Like `to_hasse_diagram`?
         raise NotImplementedError
     
     def to_H_repr(self, in_place: bool = True) -> None | Polytope:
@@ -1829,7 +1835,28 @@ def pre_img(A: ArrayLike) -> ArrayLike:
 
 def pretty_print(obj: Polytope | Ellipsoid | Subspace) -> str:
     """Pretty print the object `obj`. Used as a helper function for the `__str__` method, as this method can get really verbose.
-    
+
+    Examples
+    --------
+    >>> import geopy as gp
+    >>> import numpy as np
+    >>> A, b = np.array([[1, 0], [0, 1], [-1, 0], [0, -1]]), np.array([1, 1, 1, 1])
+    >>> p_1 = gp.poly(A, b)
+    >>> print(p_1)
+    Polytope in ℝ^2
+    [[ 1,  0]  |    [[1]
+     [ 0,  1]  |     [1]
+     [-1,  0]  x <=  [1]
+     [ 0, -1]] |     [1]]
+    >>> V = np.random.rand(10, 10)
+    >>> p_2 = gp.poly(V)
+    >>> print(f"{p_2:fancy}")
+    Polytope in ℝ^10
+    / [ 0.00] [ 1]      [ 0.01] \\
+    | [ 2.00] [ 2]      [ 0.50] |
+    <    ... , ..., ...,   ...  >
+    \\ [-5.31] [-4]      [-0.10] /
+
     """
     return f"{obj.__class__.__name__} in ℝ^{obj.n}"
 
