@@ -1838,6 +1838,8 @@ def pretty_print(obj: Polytope | Ellipsoid | Subspace) -> str:
 
     Examples
     --------
+    Example of how the matrix is printed based on whether it is a V-representation or an H-representation, and how format specifiers can be used.
+
     >>> import geopy as gp
     >>> import numpy as np
     >>> A, b = np.array([[1, 0], [0, 1], [-1, 0], [0, -1]]), np.array([1, 1, 1, 1])
