@@ -1812,15 +1812,15 @@ class IncompatibleTypes(TypeError):
 
 def plot(obj: Polytope | Ellipsoid | Subspace, ax: plt.Axes = None) -> list[plt.Figure, plt.Axes]:
     """Method to plot either a polytope, a ellipsoid, or a subspace.
+
+    ### FIXME: This should probably be a class-bound method for each of the classes?
     
     """
     raise NotImplementedError
 
 
 def bisect(func: Callable, range: tuple, args: tuple) -> float:
-    """Bisection algorithm to find the root of a function `func` in a given `range` with `args`.
-    
-    """
+    """Bisection algorithm to find the root of a function `func` in a given `range` with `args`"""
     raise NotImplementedError
 
 
