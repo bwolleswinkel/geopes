@@ -34,6 +34,9 @@
 
 ### TODO: Gabriel: Look at 'qhull' in Python
 
+### TODO: Check out the YouTube video series from 'mathapptician' on convex polytopes: they also talk/give examples of facet and vertex enumeration algorithms
+# FROM: https://www.youtube.com/watch?v=5LzsqZmwQiQ
+
 ### TODO: Look at conventions for 'set' class in python, on when operations should be methods of functions, or when they should be functions of the package
 
 ### TODO: Check out "Linear Matrix Inequalities in System and Control Theory," Boyd et al. (1994) specifically 5.2.1 Smallest invariant ellipsoid containing a polytope, and 5.2.2 Largest invariant ellipsoid contained in a polytope
@@ -109,7 +112,7 @@ import warnings
 
 import numpy as np
 import scipy as sp
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt  # TODO: Make this an optional dependency perhaps?
 from numpy.typing import ArrayLike
 import cvxpy as cvx  ### NOTE: I want to make this an optional dependency, as it's not strictly needed for any core functionality
 
@@ -160,6 +163,8 @@ class Polytope(ConvexRegion):
         ### FIXME: Maybe we should just make this a H-space representations? And make a method verts_to_poly instead?
 
         ### FIXME: We should also allow for polyhedrons as 'degenerate' polytopes, i.e., those polytopes with infinite volume.
+
+        ### FIXME: We should have three initializers: _init_H_repr (i.e., `gp.poly(A, b)`), _init_V_repr (`gp.poly(V, rays=R)), and _init_empty (`gp.poly(n=1)`). So either 2, 1, or 0 positional arguments, and the rest keyword arguments.
         
         Parameters
         ----------
@@ -805,6 +810,11 @@ def norm_to_poly(norm: float, n: int, p: float | str = 'inf') -> Polytope | Elli
             raise NotImplementedError
         case _:
             raise ValueError(f"The norm type '{p}' is not recognized.")
+        
+
+def convex_hull() -> ArrayLike[float]:
+    """Compute the convex hull of a set of points"""
+    raise NotImplementedError
 
 
 def vrepr(poly: Polytope) -> ArrayLike:
@@ -838,6 +848,46 @@ def hrepr(poly: Polytope) -> tuple:
     -------
     (A, b) : tuple
         The matrix A ∈ ℝ^{p x n} and vector b ∈ ℝ^p in the H-representation {x ∈ ℝ^n | Ax ≤ b}.
+    """
+    raise NotImplementedError
+
+
+def enum_facets(verts: ArrayLike, rays: ArrayLike) -> ArrayLike:
+    """Enumerate the facets of a polytope given its vertices and rays. Uses the Fourier-Motzkin elimination method. It leverages the libary `pycddlib`, which implements the double description method [1].
+    
+    Examples
+    --------
+    This is an example how the algorithm works.
+    Step 0: V = {[1, 1], [2, 3]}  # Given vertices
+    Step 1: As the polytope P is conv(V), it must hold that:
+    lmd_1 + lmd_2 = 1
+    lmd_1 * [1, 1] + lmd_2 * [2, 3] = [x_1, x_2]
+    lmd_1, lmd_2 >= 0
+    Step 2: Use the Fourier-Motzkin elimination to eliminate lmd_1 and lmd_2, resulting in the (in)equalities:
+    2 * x_1 - x_2 == 1
+    1 <= x_1 <= 2
+    Step 3: Convert the equalities to inequalities (actually, we don't want to do that), resulting in the H-representation:
+    A = [[-2,  1],
+         [ 2, -1],
+         [-1,  0],
+         [ 1,  0]]
+    b = [-1, 1, -1, 2]
+
+    References
+    ----------
+    [1] Fukuda, K., Prodon, A. (1996). Double description method revisited. In: Deza, M., Euler, R., Manoussakis, I. (eds) Combinatorics and Computer Science. CCS 1995. Lecture Notes in Computer Science, vol 1120. Springer, Berlin, Heidelberg. https://doi.org/10.1007/3-540-61576-8_77
+    
+    """
+    raise NotImplementedError
+
+
+def enum_verts(A: ArrayLike, b: ArrayLike, A_eq: ArrayLike | None = None, b_eq: ArrayLike | None = None) -> ArrayLike:
+    """Enumerate the vertices of a polytope given its half-space representation. Uses the Avis-Fukuda reverse search algorithm [1].
+    
+    References
+    ----------
+    [1] Avis, D., Fukuda, K. (1996). Avis, D., Fukuda, K. A pivoting algorithm for convex hulls and vertex enumeration of arrangements and polyhedra. Discrete Comput Geom 8, 295–313 (1992). https://doi.org/10.1007/BF02293050
+
     """
     raise NotImplementedError
 
@@ -1187,7 +1237,7 @@ def intersection(poly_1: Polytope, poly_2: Polytope) -> Polytope:
     raise NotImplementedError
 
 
-def convex_hull(V: ArrayLike, method: str = 'scipy') -> ArrayLike:
+def convex_hull(V: ArrayLike) -> ArrayLike:
     """Compute the convex hull of a set of points `V`.
 
     Parameters
