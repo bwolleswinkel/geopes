@@ -1362,19 +1362,44 @@ class Subspace(ConvexRegion):
     
     """
 
-    def __init__(self, basis: ArrayLike):
-        self.basis = basis
-        self.dim = None   ### FIXME: Placeholder
-        self.is_min_repr = None
-        self.is_empty = None  ### NOTE: Here, 'empty' means the subspace just contains the zero vector, i.e., `self` = {0}
-        ### FIXME: The above is 'incorrect,' a subspace always contains the zero vector, so it is never empty; however, we can have a subspace which only contains the zero vector, i.e., the trivial subspace
-        self.is_trivial = None  ### Better implementation of the above
+    def __init__(self, *args, basis: ArrayLike | None = None, n: int | None = None, reduce: bool = True):
+        #: Check the number of arguments
+        match len(args):
+            case 0:
+                if n is not None and basis is None:
+                    basis = np.zeros((n, 1))
+                elif n is not None and basis is not None:
+                    raise ValueError("Cannot specify both 'n' and 'basis' when no positional arguments are given")
+            case 1:
+                if basis is not None or n is not None:
+                    raise ValueError("Cannot specify 'n' or 'basis' when one positional argument 'basis' is given")
+                basis = args[0]
+        self._n: int = basis.shape[0]
+        if reduce:
+            basis = sp.linalg.orth(np.atleast_2d(basis)) if not np.allclose(basis, 0) else np.zeros((self.n, 1))
+        self.basis: ArrayLike = np.atleast_2d(basis)
+        self._n: int = self.basis.shape[0]
+        self._dim: int | None = (self.basis.shape[1] if not np.allclose(self.basis, 0) else 0) if reduce else None
+        self.is_min_repr: bool | None = True if reduce else None
+        self.is_trivial: bool | None = np.allclose(self.basis, 0) if reduce else None
 
     def __getattr__(self, name: str) -> AttributeError:
         if name == 'is_empty':
             raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'. Instead, use 'is_trivial' to check if the subspace only contains the zero vector.")
         else:
             self.__getattribute__(name)
+
+    @property
+    def n(self):
+        return self._n
+    
+    @property
+    def dim(self):
+        return self._dim
+    
+    @property
+    def vol(self):
+        return 0 if self.n != self.dim else np.inf
 
     @property
     def perp(self) -> Subspace:
@@ -1404,6 +1429,19 @@ class Subspace(ConvexRegion):
                 return self
             case _:
                 raise ValueError(f"Unrecognized copy type '{type}'")
+            
+    def __add__(self, other: Subspace) -> Subspace:
+        """Implements the magic method `+` as the (Mikowski) addition, also known as the direct sum, of two subspaces V = `self` and W = `other`.
+        
+        References
+        ----------
+        [1] M. A. Massoumnia, "A geometric approach to failure detection and identification in linear systems," Ph.D. dissertation, Massachusetts Institute of Technology, Cambridge, MA, 1986. Available: https://ntrs.nasa.gov/citations/19860014486
+
+        """
+        return subs_add(self, other)
+    
+    def __eq__(self, value: Subspace) -> bool:
+        return np.linalg.matrix_rank(self.basis) == np.linalg.matrix_rank(np.hstack((self.basis, value.basis))) == np.linalg.matrix_rank(value.basis)
     
     def __mod__(self, other: Subspace) -> QuotientSpace:
         """Implements the magic method `%` as the quotient space V / W of two subspaces V = `self` and W = `other`. Note that this requires that W ⊆ V.
@@ -1421,7 +1459,7 @@ class Subspace(ConvexRegion):
     
     def __repr__(self) -> str:
         """Debug print the subspace."""
-        return f"{self.__class__.__name__}(basis.shape={self.basis.shape}, n={self.n}, dim={self.dim}, min_repr={self.is_min_repr}, is_empty={self.is_empty})"
+        return f"{self.__class__.__name__}(basis.shape={self.basis.shape}, n={self.n}, dim={self.dim}, min_repr={self.is_min_repr}, is_trivial={self.is_trivial})"
 
     def reduce(self) -> Subspace:
         """Reduce the basis `basis` of the subspace to a minimal basis.
@@ -1482,10 +1520,9 @@ class QuotientSpace:
 
 
 def subs_add(subs_1: Subspace, subs_2: Subspace) -> Subspace:
-    """Compute the addition, or *direct sum*, of two subspaces `subs_1` + `subs_2`.
-    
-    """
-    return (subs_1.E + subs_2.E).reduce()
+    """Compute the addition, or *direct sum*, of two subspaces `subs_1` + `subs_2`"""
+    new_basis = sp.linalg.orth(np.hstack((subs_1.basis, subs_2.basis)))
+    return Subspace(new_basis)
 
 
 def angle(subs_1: Subspace, subs_2: Subspace) -> float:
@@ -1949,6 +1986,16 @@ def main():
     print(poly)
     print(f"Poly: {poly:fancy}")
     print(repr(poly))
+
+    basis = np.array([[1, 1, 0], [0, 2, 0]]).T
+    subs_1 = Subspace(basis)
+    subs_2 = Subspace(n=3)
+    subs_3 = Subspace(np.array([1, 1, 2]))
+    subs_4 = subs_1 + subs_2
+
+    print(subs_1.basis)
+    print(subs_4.basis)
+    print(subs_1 == subs_4)
 
     # Here we can also write MPC
     X, U = cvx.Variable((2, 11)), cvx.Variable((2, 10))
