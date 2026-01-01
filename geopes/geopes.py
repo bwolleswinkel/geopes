@@ -1362,11 +1362,12 @@ class Subspace(ConvexRegion):
     
     """
 
-    def __init__(self, *args, basis: ArrayLike | None = None, n: int | None = None, reduce: bool = True):
+    def __init__(self, *args, basis: ArrayLike | None = None, n: int | None = None, reduce: bool = True, ortonormal: bool = False):
         #: Check the number of arguments
         match len(args):
             case 0:
                 if n is not None and basis is None:
+                    ### FIXME: Having the zero vector here is NOT correct! We should instead have an empty basis, as the zero vector CANNOT be a part of a basis (it not being linearly independent)!
                     basis = np.zeros((n, 1))
                 elif n is not None and basis is not None:
                     raise ValueError("Cannot specify both 'n' and 'basis' when no positional arguments are given")
@@ -1375,17 +1376,20 @@ class Subspace(ConvexRegion):
                     raise ValueError("Cannot specify 'n' or 'basis' when one positional argument 'basis' is given")
                 basis = args[0]
         self._n: int = basis.shape[0]
-        if reduce:
+        if ortonormal:
             basis = sp.linalg.orth(np.atleast_2d(basis)) if not np.allclose(basis, 0) else np.zeros((self.n, 1))
+        ### FIXME: Instead to doing the reduce here, maybe we should change the self.basis setter to always do the reduction? And then to also handle the dimensionality based on that?
+        elif reduce:
+            basis = span(basis[:, np.newaxis] if basis.ndim == 1 else basis)
         self.basis: ArrayLike = np.atleast_2d(basis)
         self._n: int = self.basis.shape[0]
         self._dim: int | None = (self.basis.shape[1] if not np.allclose(self.basis, 0) else 0) if reduce else None
         self.is_min_repr: bool | None = True if reduce else None
         self.is_trivial: bool | None = np.allclose(self.basis, 0) if reduce else None
 
-    def __getattr__(self, name: str) -> AttributeError:
+    def __getattr__(self, name: str) -> Any | AttributeError:
         if name == 'is_empty':
-            raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'. Instead, use 'is_trivial' to check if the subspace only contains the zero vector.")
+            raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'. Use the attribute 'is_trivial' to check if the subspace only contains the zero vector.")
         else:
             self.__getattribute__(name)
 
@@ -1406,7 +1410,10 @@ class Subspace(ConvexRegion):
         """Compute the orthogonal complement V^⊥ of the subspace V = `self`.
         
         """
-        return Subspace(sp.linalg.null_space(self.basis.T).T)
+        if self.is_trivial:
+            return Subspace(np.eye(self.n))
+        else:
+            return Subspace(sp.linalg.null_space(self.basis.T)) if self.dim < self.n else Subspace(n=self.n)
     
     def copy(self, type: str = 'deepcopy') -> Subspace:
         """Copies the subspace.
@@ -1430,6 +1437,8 @@ class Subspace(ConvexRegion):
             case _:
                 raise ValueError(f"Unrecognized copy type '{type}'")
             
+    __array_ufunc__ = None
+    
     def __add__(self, other: Subspace) -> Subspace:
         """Implements the magic method `+` as the (Mikowski) addition, also known as the direct sum, of two subspaces V = `self` and W = `other`.
         
@@ -1438,16 +1447,108 @@ class Subspace(ConvexRegion):
         [1] M. A. Massoumnia, "A geometric approach to failure detection and identification in linear systems," Ph.D. dissertation, Massachusetts Institute of Technology, Cambridge, MA, 1986. Available: https://ntrs.nasa.gov/citations/19860014486
 
         """
-        return subs_add(self, other)
+        if self.n != other.n:
+            raise DimensionError(f"Cannot add subspaces of different dimensions: {self.n} and {other.n}")
+        else:
+            return subs_add(self, other)
+        
+    def __radd__(self, other: Subspace) -> Subspace:
+        return self.__add__(other)
     
-    def __eq__(self, value: Subspace) -> bool:
-        return np.linalg.matrix_rank(self.basis) == np.linalg.matrix_rank(np.hstack((self.basis, value.basis))) == np.linalg.matrix_rank(value.basis)
+    def __iadd__(self, other: Subspace) -> Subspace:
+        self.basis = subs_add(self, other).basis
+        return self
+    
+    def __and__(self, other: Subspace) -> Subspace:
+        """Implements the magic method `&` as the intersection V ∩ W of two subspaces V = `self` and W = `other`.
+        
+        """
+        if self.n != other.n:
+            raise DimensionError(f"Cannot compute intersection of subspaces of different dimensions: {self.n} and {other.n}")
+        else:
+            return subs_intersection(self, other)
+    
+    def __eq__(self, other: Subspace) -> bool:
+        return np.linalg.matrix_rank(self.basis) == np.linalg.matrix_rank(np.hstack((self.basis, other.basis))) == np.linalg.matrix_rank(other.basis)
+    
+    def __matmul__(self, other: ArrayLike) -> Subspace:
+        raise NotImplementedError
+    
+    def __rmatmul__(self, other: ArrayLike) -> Subspace:
+        # TEMP
+        #
+        print(other)
+        #
+        if other.ndim != 2:
+            raise DimensionError(f"Subspace mapping requires a 2D array, got array with ndim={other.ndim}")
+        elif other.shape[1] != self.n:
+            raise DimensionError(f"Matrix of incompatible dimensions: {self.n} and {other.shape[0]}")
+        return Subspace(other @ self.basis)
+    
+    def __imatmul__(self, other: ArrayLike) -> Subspace:
+        ### FIXME: Here I need to check what happens if the dimensionality becomes zero. Better yet, I need to make it such that the setter self.basis is changed to handle this case properly! Such that it always does reduction and sets the proper attributes.
+        self.basis = self.basis @ other
+        return self
     
     def __mod__(self, other: Subspace) -> QuotientSpace:
         """Implements the magic method `%` as the quotient space V / W of two subspaces V = `self` and W = `other`. Note that this requires that W ⊆ V.
         
         """
         return QuotientSpace(self, other)
+    
+    def __getitem__(self, key: int | slice) -> ArrayLike:
+        """Implements the magic method for indexing `[]` to get the basis vectors of the subspace.
+        
+        Parameters
+        ----------
+        key : int | slice
+            The index or slice of the basis vectors to get.
+        
+        Returns
+        -------
+        basis_vec : ArrayLike
+            The basis vector(s) at the given index or slice.
+        
+        """
+        return self.basis[:, key]
+    
+    def __setitem__(self, key: int | slice, value: ArrayLike) -> None:
+        """Implements the magic method for indexing `[]` to set the basis vectors of the subspace.
+        
+        Parameters
+        ----------
+        key : int | slice
+            The index or slice of the basis vectors to set.
+        value : ArrayLike
+            The basis vector(s) to set at the given index or slice.
+        
+        """
+        self.basis[:, key] = value
+        self.reduce()
+
+    def __delitem__(self, key: int | slice) -> None:
+        """Implements the magic method for indexing `[]` to delete the basis vectors of the subspace.
+        
+        Parameters
+        ----------
+        key : int | slice
+            The index or slice of the basis vectors to delete.
+        
+        """
+        self.basis = np.delete(self.basis, key, axis=1)
+        self.reduce()
+
+    def __iter__(self):
+        """Implements the magic method for iteration over the basis vectors of the subspace.
+        
+        Yields
+        ------
+        basis_vec : ArrayLike
+            The next basis vector in the subspace.
+        
+        """
+        for i in range(self.basis.shape[1]):
+            yield self.basis[:, i]
 
     def __invert__(self) -> Subspace:
         """Implements the magic method `~` as the orthogonal complement V^⊥ of the subspace V = `self`.
@@ -1456,6 +1557,11 @@ class Subspace(ConvexRegion):
         
         """
         raise NotImplementedError
+    
+    def __str__(self) -> str:
+        ### FIXME: Placeholder
+        print(self.__repr__(), end='')
+        return ", with basis:\n" + str(self.basis)
     
     def __repr__(self) -> str:
         """Debug print the subspace."""
@@ -1466,7 +1572,11 @@ class Subspace(ConvexRegion):
         
         """
         ### FIXME: Check for linear independence using a rank condition
-        raise NotImplementedError
+        self.basis = span(self.basis) if not self.is_trivial else np.zeros((self.n, 1))
+        self.is_trivial = np.allclose(self.basis, 0)
+        self._dim = self.basis.shape[1] if not self.is_trivial else 0
+        self.is_min_repr = True
+        return self
     
     def orthonormal(self, in_place: bool = True) -> None | Subspace:
         """Compute an orthonormal basis for the subspace `self`.
@@ -1474,7 +1584,11 @@ class Subspace(ConvexRegion):
         ### FIXME: When should a method just act on itself, and when should it return a new object?
         
         """
-        raise NotImplementedError
+        basis = sp.linalg.orth(self.basis) if not self.is_trivial else np.zeros((self.n, 1))
+        if in_place:
+            self.basis = basis
+        else:
+            return Subspace(basis)
     
 
 class AffineSubset(ConvexRegion):
@@ -1517,12 +1631,33 @@ class QuotientSpace:
 
         """
         raise NotImplementedError
+    
+
+def span(a: ArrayLike) -> ArrayLike:
+    """Compute a basis spanned by the matrix `a` by removing linearly dependent columns"""
+    basis = [a[:, 0]]
+    for i in range(1, a.shape[1]):
+        if np.linalg.matrix_rank(np.column_stack((*basis, a[:, i]))) > len(basis):
+            basis.append(a[:, i])
+    return np.column_stack(basis)
+    
 
 
 def subs_add(subs_1: Subspace, subs_2: Subspace) -> Subspace:
     """Compute the addition, or *direct sum*, of two subspaces `subs_1` + `subs_2`"""
-    new_basis = sp.linalg.orth(np.hstack((subs_1.basis, subs_2.basis)))
+    new_basis = span(np.hstack((subs_1.basis, subs_2.basis)))
     return Subspace(new_basis)
+
+
+def subs_intersection(subs_1: Subspace, subs_2: Subspace) -> Subspace:
+    """Compute the intersection of two subspaces `subs_1` ∩ `subs_2`"""
+    intersection_basis = sp.linalg.null_space(np.row_stack((subs_1.perp.basis.T, subs_2.perp.basis.T)))
+    return Subspace(intersection_basis)
+
+
+def inv_map(A: ArrayLike, subs: Subspace) -> Subspace:
+    """Compute the inverse map of a subspace `V` under the linear transformation `A`, i.e., A^{-1} V"""
+    return Subspace(sp.linalg.null_space(subs.perp.basis.T @ A))
 
 
 def angle(subs_1: Subspace, subs_2: Subspace) -> float:
@@ -1974,10 +2109,7 @@ def is_in(obj_1: ArrayLike | Polytope | Ellipsoid | Subspace | cvx.Variable | cv
             raise ValueError(f"Unrecognized obj_1 type '{obj_1.__class__.__name__}'")
 
 
-def main():
-    """Temporary file, to test some functionality
-    
-    """
+def main() -> None:
 
     A = np.array([[1, 0], [0, 1]])
     b = np.array([1, 1])
@@ -1987,15 +2119,38 @@ def main():
     print(f"Poly: {poly:fancy}")
     print(repr(poly))
 
-    basis = np.array([[1, 1, 0], [0, 2, 0]]).T
-    subs_1 = Subspace(basis)
+    A = np.array([[0, 0, 0], [1, 2, -1], [0, 0, 1]])
+    # A = np.zeros((3, 3))
+    subs_1 = Subspace(np.array([[1, 1, 0], [0, 2, 0]]).T)
     subs_2 = Subspace(n=3)
     subs_3 = Subspace(np.array([1, 1, 2]))
     subs_4 = subs_1 + subs_2
+    subs_5 = subs_1 + subs_3
+    subs_full = Subspace(np.eye(3))
+    subs_6 = subs_full & subs_3
+    subs_7 = inv_map(A, subs_3)
 
-    print(subs_1.basis)
-    print(subs_4.basis)
+    subs_5.orthonormal()
+
+    print(np.linalg.eigvals(A))
+
+    print(subs_1)
+    print(subs_2)
+    print(subs_3)
+    print(subs_4)
+    print(subs_5)
+    print(subs_full)
+    print(subs_6)
+    print(subs_7)
     print(subs_1 == subs_4)
+    print(subs_6 == subs_3)
+    print(inv_map(A, subs_3))
+    print(A @ subs_7 == subs_3)
+
+    print(subs_1[0])
+    print([e for e in subs_1])
+    del subs_1[0]
+    print(subs_1)
 
     # Here we can also write MPC
     X, U = cvx.Variable((2, 11)), cvx.Variable((2, 10))
