@@ -18,10 +18,10 @@ int_rows, int_cols = 3, 10
 float_rows, float_cols = 2, 100
 
 # Set the options for ellipsoid
-n = 2
+n = 5
 
 # Set the maximum number of vertices to print
-max_nverts = 10
+max_nverts = 6
 
 # ------ METHOD ------
 

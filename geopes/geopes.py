@@ -1762,7 +1762,12 @@ class Ellipsoid(ConvexRegion):
         """
         if self._vol is None:
             # FROM: https://math.stackexchange.com/questions/226094/measure-of-an-ellipsoid
-            self._vol = (np.pi ** (self.n / 2) / np.math.gamma(self.n / 2 + 1)) / np.sqrt(np.linalg.det(self.P))
+            if self.is_degen and np.any(self.P == np.inf):
+                self._vol = 0
+            elif self.is_degen and np.linalg.matrix_rank(self.P) < self.n:
+                self._vol = np.inf
+            else:
+                self._vol = (np.pi ** (self.n / 2) / np.math.gamma(self.n / 2 + 1)) / np.sqrt(np.linalg.det(self.P))
         return self._vol
     
     def __str__(self) -> str:
@@ -1793,6 +1798,26 @@ class Ellipsoid(ConvexRegion):
             The random seed.
         
         """
+        raise NotImplementedError
+    
+    def plot(self, show: bool = True, ax: plt.Axes | None = None) -> plt.Axes | None:
+        """Plot the ellipsoid in 1D, 2D, or 3D.
+        
+        Parameters
+        ----------
+        show : bool
+            Whether to show the plot. Default is True.
+        ax : Axes
+            The axes to plot on. If None, a new figure and axes are created.
+        
+        Returns
+        -------
+        ax : Axes
+            The axes the ellipsoid was plotted on.
+        
+        """
+        ### TODO: Check out the following tutorial for plotting ellipsoids in 3D: 
+        ### FROM: https://stackoverflow.com/questions/7819498/plotting-ellipsoid-with-matplotlib
         raise NotImplementedError
 
 
