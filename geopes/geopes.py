@@ -1376,6 +1376,7 @@ class Subspace(ConvexRegion):
                     raise ValueError("Cannot specify 'n' or 'basis' when one positional argument 'basis' is given")
                 basis = args[0]
         self._n: int = basis.shape[0]
+        # FIXME: Don't do this in the constructor; instead, one can call `A = gp.subs(...).orto(in_place=False)` or something like that
         if ortonormal:
             basis = sp.linalg.orth(np.atleast_2d(basis)) if not np.allclose(basis, 0) else np.zeros((self.n, 1))
         ### FIXME: Instead to doing the reduce here, maybe we should change the self.basis setter to always do the reduction? And then to also handle the dimensionality based on that?
@@ -1647,6 +1648,10 @@ def span(a: ArrayLike) -> ArrayLike:
         return np.column_stack(basis)
     
 
+def dist(subs: Subspace, point: ArrayLike) -> float:
+    """Compute the (Euclidean) distance from a point `point` to a subspace `subs`"""
+    raise NotImplementedError
+
 
 def subs_add(subs_1: Subspace, subs_2: Subspace) -> Subspace:
     """Compute the addition, or *direct sum*, of two subspaces `subs_1` + `subs_2`"""
@@ -1693,7 +1698,7 @@ class Ellipsoid(ConvexRegion):
     
     """
 
-    def __init__(self, P: ArrayLike, c: ArrayLike, alpha: float = 1):
+    def __init__(self, P: ArrayLike, c: ArrayLike | None = None, alpha: float = 1):
         """Constructor for the ellipsoid class
         
         Parameters
@@ -1706,13 +1711,31 @@ class Ellipsoid(ConvexRegion):
             The scaling factor α.
         
         """
-        self.P = P
-        self.c = c
-        self.alpha = alpha
-        self.n = P.shape[0]
-        self._R = None  ### NOTE: Radii of the ellipsoid, i.e., the semi-minor and major axis
-        self._theta = None
-        self._vol = None
+        self.P: ArrayLike = P
+        self._n: int = P.shape[0]
+        self.c: ArrayLike = c if c is not None else np.zeros(self.n)
+        self.alpha: float = alpha
+        self._R: ArrayLike = None  ### NOTE: Radii of the ellipsoid, i.e., the semi-minor and major axis
+        self._theta: ArrayLike = None
+        self.is_degen: bool = np.any(P == np.inf) or np.linalg.matrix_rank(self.P) < self.n
+        self._vol: float = None
+
+    @property
+    def dim(self) -> int:
+        """Compute the dimension of the ellipsoid.
+        
+        """
+        if self.is_degen:
+            if self.vol == 0:
+                raise NotImplementedError("Dimension computation for degenerate ellipsoids with zero volume is not implemented yet.")  ### NOTE: This could be a plane, or a line, or a point... how to compute the dimension then?
+            elif self.vol == np.inf:
+                raise NotImplementedError("Dimension computation for degenerate ellipsoids with infinite volume is not implemented yet.")  ### NOTE: This could be a line, or a plane, or higher-dimensional subspace... how to compute the dimension then?
+        return self.n
+    
+    @property
+    def n(self) -> int:
+        """Compute the ambient dimension of the ellipsoid"""
+        return self._n
 
     @property
     def theta(self) -> ArrayLike:
@@ -1742,6 +1765,14 @@ class Ellipsoid(ConvexRegion):
             self._vol = (np.pi ** (self.n / 2) / np.math.gamma(self.n / 2 + 1)) / np.sqrt(np.linalg.det(self.P))
         return self._vol
     
+    def __str__(self) -> str:
+        ### FIXME: Placeholder
+        print(self.__repr__(), end='')
+        return ", with P:\n" + str(self.P)
+    
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}(P.shape={self.P.shape}, n={self.n}, is_degen={self.is_degen}, vol={self.vol})"
+    
     def bbox(self) -> Box:
         """Compute the bounding box of the ellipsoid.
         
@@ -1753,15 +1784,13 @@ class Ellipsoid(ConvexRegion):
         return bounds_to_poly(lb, ub)
     
 
-    def sample(self, seed: int = None, in_ellps: bool = True) -> ArrayLike:
-        """Sample a point from the ellipsoid according to the normal distribution.
+    def sample(self, seed: int = None) -> ArrayLike:
+        """Sample a point from the ellipsoid according to a truncated normal distribution.
 
         Parameters
         ----------
         seed : int
             The random seed.
-        in_ellps : bool
-            Whether to sample from inside the ellipsoid. Default is True. If False, we do not use the truncated normal distribution, but the normal distribution.
         
         """
         raise NotImplementedError
@@ -1787,7 +1816,7 @@ class Sphere(Ellipsoid):
         super().__init__(np.eye(c.shape[0]), c, radius)
 
 
-def normal_to_ellps(mean: ArrayLike, Sigma: ArrayLike, a: float) -> Ellipsoid:
+def ellps_from_normal(mean: ArrayLike, Sigma: ArrayLike, a: float) -> Ellipsoid:
     """Convert a normal distribution N(`mean`, `Sigma`) to an ellipsoid of `a` times the standard deviation.
     
     Parameters
@@ -1833,7 +1862,7 @@ def poly_to_ellps(poly: Polytope) -> Ellipsoid:
     raise NotImplementedError
 
 
-def lyap_to_ellps(A: ArrayLike, Q: ArrayLike) -> Ellipsoid:
+def ellps_from_lyap(A: ArrayLike, Q: ArrayLike) -> Ellipsoid:
     """Convert a Lyapunov function V(x) = x^T Q x to an ellipsoid.
 
     ### FIXME: This is just a placeholder, but do something with ellipsoids and level sets of Lyapunov functions
@@ -2156,7 +2185,15 @@ def main() -> None:
     print([e for e in subs_1])
     del subs_1[0]
     print(subs_1)
-    print(subs_2[0])
+    try:
+        print(subs_2[0])
+    except IndexError as e:
+        print(f'Caught "IndexError: {e}"')
+
+    ellps_1 = Ellipsoid(np.array([[1/4, 0], [0, 0]]))
+    ellps_2 = Ellipsoid(np.array([[1/4, 0], [0, np.inf]]))
+    print(ellps_1)
+    print(ellps_2)
 
     # Here we can also write MPC
     X, U = cvx.Variable((2, 11)), cvx.Variable((2, 10))
