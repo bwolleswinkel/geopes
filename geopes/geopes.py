@@ -62,6 +62,9 @@
 # FROM: # FROM: https://www.youtube.com/watch?v=1ZfKzv6Bi5k
 # FROM: https://math.stackexchange.com/questions/995312/maximal-points-on-an-n-dimensional-ellipsoid (computing a maximal element p of an ellipsoid in a given direction)
 
+### TODO: Check out this video on polytopes, its very nice!
+# FROM: https://www.youtube.com/watch?v=3wXRpTrkEgs
+
 ### TODO: Check out the website 'zenodo' for having a doi for the package
 
 ### FIXME: What convention do we want for seperate constructors? Do we want to use classmethods, like pandas? So we can have:
@@ -319,6 +322,13 @@ class Polytope(ConvexRegion):
         """Compute the edges of the polytope.
         
         ### FIXME: How do we want to represent edges? As a list of tuples of vertices? Or as a D x n x 2 Numpy array, where D is the number of edges, n is the dimension of the space, and 2 is the two endpoints of the edge?
+
+        """
+        raise NotImplementedError
+    
+    @property
+    def angles(self) -> np.ndarray:
+        """Compute the angles between the edges of the polytope. To do this, the polytope must be 2D, and all the vertices will be ordered counterclockwise.
 
         """
         raise NotImplementedError
