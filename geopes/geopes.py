@@ -1488,10 +1488,6 @@ class Subspace(ConvexRegion):
         raise NotImplementedError
     
     def __rmatmul__(self, other: ArrayLike) -> Subspace:
-        # TEMP
-        #
-        print(other)
-        #
         if other.ndim != 2:
             raise DimensionError(f"Subspace mapping requires a 2D array, got array with ndim={other.ndim}")
         elif other.shape[1] != self.n:
