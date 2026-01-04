@@ -311,7 +311,7 @@ class Polytope(ConvexRegion):
         raise NotImplementedError
     
     @property
-    def vol(self):
+    def vol(self) -> float:
         """Compute the volume of the polytope."""
         if self._vol is None:
             ...
@@ -1401,6 +1401,7 @@ class Subspace(ConvexRegion):
         self.is_trivial: bool | None = np.allclose(self.basis, 0) if reduce else None
 
     def __getattr__(self, name: str) -> Any | AttributeError:
+        # NOTE: This is purely to prevent users from accessing the non-exisitng attribute 'is_empty' from polytopes and ellipsoids, as this does not make sense for subspaces
         if name == 'is_empty':
             raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'. Use the attribute 'is_trivial' to check if the subspace only contains the zero vector.")
         else:
@@ -1520,7 +1521,7 @@ class Subspace(ConvexRegion):
         
         """
         if self.is_trivial:
-            raise IndexError("Cannot index basis vectors of a trivial subspace")
+            raise IndexError("Cannot index basis vectors of a trivial subspace as the basis is empty")
         return self.basis[:, key]
     
     def __setitem__(self, key: int | slice, value: ArrayLike) -> None:
