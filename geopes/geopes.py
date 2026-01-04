@@ -611,6 +611,8 @@ class Polytope(ConvexRegion):
     
     def sample(self, seed: int = None, method: str = 'rejection', density: Literal['uniform'] | Callable = 'uniform') -> ArrayLike:
         """Sample a point from the polytope."""
+        ### TODO: Check out other algorithms, such as ball walk, ...
+        # FROM: https://joss.theoj.org/papers/10.21105/joss.07957.pdf
         match method:
             case 'rejection':
                 ### TODO: Instead of just having rejection sampling from a uniform distribution, we can also actually have rejection sampling from any other distribution quite easily!
@@ -1579,6 +1581,10 @@ class Subspace(ConvexRegion):
     def __repr__(self) -> str:
         """Debug print the subspace."""
         return f"{self.__class__.__name__}(basis.shape={self.basis.shape}, n={self.n}, dim={self.dim}, min_repr={self.is_min_repr}, is_trivial={self.is_trivial})"
+    
+    def is_iso(self, other: Subspace) -> bool:
+        """Check if two subspaces `self` and `other` are isomorphic, i.e., have the same dimension"""
+        return self.dim == other.dim
 
     def reduce(self) -> Subspace:
         """Reduce the basis `basis` of the subspace to a minimal basis.
@@ -1590,6 +1596,10 @@ class Subspace(ConvexRegion):
         self._dim = self.basis.shape[1] if not self.is_trivial else 0
         self.is_min_repr = True
         return self
+    
+    def to_poly(self) -> Polytope:
+        """Convert the subspace `self` to a degenerate polytope representation"""
+        raise NotImplementedError
     
     def orthonormal(self, in_place: bool = True) -> None | Subspace:
         """Compute an orthonormal basis for the subspace `self`.
