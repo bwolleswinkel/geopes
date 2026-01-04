@@ -2,7 +2,7 @@
 
 """
 
-# ====== mypackage.py ======
+# ====== config.py ======
 
 """Config file for global variables."""
 
