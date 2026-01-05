@@ -50,6 +50,9 @@
 # FROM: https://juliapolyhedra.github.io/Polyhedra.jl/stable/generated/Minimal%20Robust%20Positively%20Invariant%20Set/  # nopep 8
 # FROM: https://www.youtube.com/watch?v=YuxJtvgg6uc  # nopep8
 
+### TODO: Check out the paper "Ellipsoidal techniques for reachability analysis: internal approximation"
+# FROM: https://www.sciencedirect.com/science/article/pii/S0167691100000591
+
 ### TODO: Check out the package pycddlib, definitly what we need
 ### TODO: Check out the cdd package on 'Komei's Software Page' and 'cdd, cddplus and cddlib homepage'
 # FROM: https://pycddlib.readthedocs.io/en/stable/quickstart.html
@@ -1110,7 +1113,7 @@ def support(poly: Polytope, direction: ArrayLike) -> ArrayLike:
     raise NotImplementedError
 
 
-def mink_sum(poly_1: Polytope, poly_2: Polytope) -> Polytope:
+def mink_sum(poly_1: Polytope, poly_2: Polytope, method: Literal['exact', 'pushing_facets']) -> Polytope:
     """Compute the Minkowski sum `poly_1` ⊕ `poly_2` of two polytopes.
     
     Parameters
@@ -1126,6 +1129,7 @@ def mink_sum(poly_1: Polytope, poly_2: Polytope) -> Polytope:
         The Minkowski sum of the two polytopes.
     
     """
+    # TODO: Check the paper "Computing Reachable Sets: An Introduction" for the `pushing_facets` method (it's a overapproximation, but faster/less explotion in number of vertices)
     raise NotImplementedError
 
 
