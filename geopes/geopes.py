@@ -1269,6 +1269,7 @@ def convex_hull(V: ArrayLike) -> ArrayLike:
         The convex hull of the points.
     
     """
+    # FIXME: This function should be names `conv` (like the mathematical symbol)
     raise NotImplementedError
 
 
@@ -1302,8 +1303,17 @@ def convex_set_diff(poly_1: Polytope, poly_2: Polytope, method: str = 'max_volum
             raise ValueError(f"Unrecognized method '{method}'")
 
 
-def projection(points: Polytope | ArrayLike, proj: list | Subspace, keep_dims: bool = True) -> Polytope:
+def projection(points: Polytope | ArrayLike, proj_space: list[int] | Subspace, keep_dims: bool = True) -> Polytope:
     """Compute the projection of a polytope or vector `points` onto a subspace `proj` as T = Proj(V, z).
+
+    Parameters
+    ----------
+    points : Polytope | ArrayLike
+        The polytope or set of points to be projected.
+    proj_space : list[int] | Subspace
+        The projection subspace, either as a list of indices or as a Subspace object. Here, if a list of indices are given, these are the dimensions x_j for j ∈ `proj_space`.
+    keep_dims : bool
+        Whether to keep the original dimensions of the points. If False, the resulting projection will be expressed in the (lower-dimensional) basis of the subspace or the standard basis vectors e_j for j ∈ `proj_space`. Default is True.
 
     ### FIXME: Look at `ray_shooting_hyperplanes` in the package `pypolycontains` for inspiration.
 
@@ -1314,25 +1324,21 @@ def projection(points: Polytope | ArrayLike, proj: list | Subspace, keep_dims: b
 
 
 def is_subset(poly_1: Polytope, poly_2: Polytope) -> bool:
-    """Check if the polytope `poly_1` is a subset of the polytope `poly_2`, i.e., P ⊆ Q.
+    """Check if the polytope P = `poly_1` is a subset of the polytope Q = `poly_2`, i.e., P ⊆ Q.
     
     """
     raise NotImplementedError
 
 
 def comp_cheb_ball(poly: Polytope) -> Sphere:
-    """Compute the Chebyshev ball of a polytope `poly`.
-
-    ### FIXME: Maybe make this a class-bound method?
-    
-    """
+    """Compute the Chebyshev ball of a polytope `poly`, i.e., the largest inscribed ball."""
+    # FIXME: Maybe make this a class-bound method?
     raise NotImplementedError
 
 
 def envelope(poly: Polytope) -> Polytope:
-    """### FIXME: I don't know what this should do, see `polytope` package for reference.
-
-    """
+    """..."""
+    # FIXME: I don't know what this should do, see `polytope` package for reference. Oh it seems to be the same as the convex hull of multiple polytopes, so an 'outer' approximation.
     raise NotImplementedError
 
 
@@ -1961,6 +1967,23 @@ def span(A: ArrayLike) -> ArrayLike:
         if np.linalg.matrix_rank(np.column_stack((*basis, A[:, i]))) > len(basis):
             basis.append(A[:, i])
     return np.column_stack(basis)
+
+
+def signed_angle(v_1: ArrayLike, v_2: ArrayLike, look: ArrayLike | None = None) -> float:
+    """Compute the signed angle between two vectors `v_1` and `v_2`. If `look` is provided, the sign of the angle is determined by the direction of the cross product with respect to `look`. Counter-clockwise rotation from `v_1` to `v_2` is considered positive."""
+    """Compute the signed angle between two vectors `v_1` and `v_2`. If `look` is provided, the sign of the angle is determined by the direction of the cross product with respect to `look`. Counter-clockwise rotation from `v_1` to `v_2` is considered positive."""
+    if v_1.size != v_2.size:
+        raise ValueError("Both input vectors must have the same size")
+    elif v_1.size != 2 and v_1.size != 3:
+        raise NotImplementedError("Signed angle is only implemented for 2D and 3D vectors.")
+    dot_prod_normal = np.dot(v_1, v_2) / np.linalg.norm(v_1, ord=2) / np.linalg.norm(v_2, ord=2)
+    angle = np.arccos(np.clip(dot_prod_normal, -1.0, 1.0))
+    # FIXME: This sign is absolutely not correct; there are multiple arguments where it fails, and changing the arguments does not flip the sign as expected.
+    if v_1.size == 2:
+        ...  # Do something to extend the cross product to 3D?
+    sign = np.array(np.sign(np.cross(v_1, v_2).dot(look)))
+    sign[sign == 0] = 1
+    return sign * angle
 
 
 # ------------ CONTROL -------------
