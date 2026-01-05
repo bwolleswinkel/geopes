@@ -1652,19 +1652,7 @@ class QuotientSpace:
         """
         raise NotImplementedError
     
-
-def span(a: ArrayLike) -> ArrayLike:
-    """Compute a basis spanned by the matrix `a` by removing linearly dependent columns"""
-    if a.shape[1] == 0:
-        return a
-    else:
-        basis = [a[:, 0]]
-        for i in range(1, a.shape[1]):
-            if np.linalg.matrix_rank(np.column_stack((*basis, a[:, i]))) > len(basis):
-                basis.append(a[:, i])
-        return np.column_stack(basis)
     
-
 def dist(subs: Subspace, point: ArrayLike) -> float:
     """Compute the (Euclidean) distance from a point `point` to a subspace `subs`"""
     raise NotImplementedError
@@ -1922,6 +1910,53 @@ def actuator_sat_reach(A: ArrayLike, B: ArrayLike, U: Polytope) -> Ellipsoid:
 
     """
     raise NotImplementedError
+
+
+# ------------ UTILS ------------
+
+
+def is_sym(A: ArrayLike) -> bool:
+    """Check if a matrix `A` is symmetric, i.e., A = A^T."""
+    return np.allclose(A, A.T)
+
+
+def is_pos_def(A: ArrayLike[float], allow_semidef: bool = False) -> bool:
+    """Check if a matrix `A` is positive definite, i.e., x^T A x > 0 for all x ≠ 0. Note that A is required to be symmetric, i.e., A = A^T.
+    
+    """
+    # FROM: https://stackoverflow.com/questions/5033906/in-python-should-i-use-else-after-a-return-in-an-if-block | On how to structure if-statements with returns
+    if allow_semidef:
+        if not is_sym(A):
+            return False
+        else:
+            eigvals = np.linalg.eigvalsh(A)
+            return np.all(eigvals >= 0)
+    try:
+        np.linalg.cholesky(A)
+        return True
+    except np.linalg.LinAlgError:
+        return False
+    
+
+def is_sing(A: ArrayLike) -> bool:
+    """Check if a matrix `A` is singular, i.e., det(A) = 0."""
+    # FROM: https://stackoverflow.com/questions/13249108/efficient-pythonic-check-for-singular-matrix
+    # FIXME: Replace `eps` with the tolerance cfg.ATOL? Actually, probably not, right?
+    return np.linalg.cond(A) < (1 / np.finfo(A.dtype).eps)
+
+
+def span(A: ArrayLike) -> ArrayLike:
+    """Compute a basis spanned by the matrix `a` by removing linearly dependent columns"""
+    # TODO: Check out the following discussion for more efficient methods
+    # FROM: https://stackoverflow.com/questions/28816627/find-the-linearly-independent-rows-of-a-matrix
+    if A.shape[1] == 0 or np.linalg.matrix_rank(A) == A.shape[1]:
+        return A
+    basis = [A[:, 0]]
+    # FIXME: This might be very ininefficient for large matrices; look for better methods
+    for i in range(1, A.shape[1]):
+        if np.linalg.matrix_rank(np.column_stack((*basis, A[:, i]))) > len(basis):
+            basis.append(A[:, i])
+    return np.column_stack(basis)
 
 
 # ------------ CONTROL -------------
