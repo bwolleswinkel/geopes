@@ -686,6 +686,7 @@ class Polytope(ConvexRegion):
         ### TODO: Make it also such that the vertices of the polytope are numbered with the index of the `V` array!
 
         """
+        ### TODO: Copy the working functionality that we have from geometric control
         ### FIXME: Do we want lazy imports?
         try:
             import matplotlib.pyplot as plt
