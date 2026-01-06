@@ -727,7 +727,7 @@ class Polytope(ConvexRegion):
                 for idx in range(self.A.shape[1]):
                     V = self.verts[np.isclose(self.A[idx, :] @ self.verts - self.b[idx], 0, rtol=cfg.RTOL, atol=cfg.ATOL)]
                     # FIXME: This should not return axis, right? It should just modify it in place? Oh but what if no axis is provided?
-                    # FIXME: Maybe we should call it _plot_planet_3d instead? Because it is exactly the same function we are going to call in subspace, without the border
+                    # FIXME: Maybe we should call it _plot_plane_3d instead? Because it is exactly the same function we are going to call in subspace, without the border
                     ax = _plot_facet_3d(V, ..., ax_lims=ax_lims, color=color, has_border=has_border, alpha=alpha, ax=ax)  # Sort the vertices based on `signed_angle`, and plot them as a patch
             case _:
                 raise DimensionError("Can only plot polytopes in 1D, 2D, or 3D")
