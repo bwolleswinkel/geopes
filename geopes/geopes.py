@@ -123,6 +123,10 @@ from numpy.typing import ArrayLike
 import cvxpy as cvx  ### NOTE: I want to make this an optional dependency, as it's not strictly needed for any core functionality
 
 
+# For a generic Type var of Color. Should probably moved to utils.py later on.
+Color = (str | tuple[float, float, float] | tuple[float, float, float, float] | float)
+
+
 class ConvexRegion(ABC):
     """A base class for convex regions, which can be inherited by other classes such as Polytope, Ellipsoid, etc.
     
@@ -679,19 +683,56 @@ class Polytope(ConvexRegion):
         """
         raise NotImplementedError
     
-    def plot(ax: plt.Axes = None, show: bool = True) -> plt.Axes | None:
+    def plot(self, ax_lims: list[tuple[float, float]] | None = None, has_border: bool = True, color: Color | None = None, alpha: float = 0.2, offset: float = 0.1, ax: plt.Axes = None, show: bool = True) -> plt.Axes | None:
         """Plot the polytope in 1D, 2D, or 3D.  
 
         ### FIXME: Should this be an external method as well? I.e., `geo.plot(poly)`? 
-        ### TODO: Make it also such that the vertices of the polytope are numbered with the index of the `V` array!
+        ### TODO: Make it also such that the vertices of the polytope are numbered with the index of the `V` array! So add labels
 
         """
-        ### TODO: Copy the working functionality that we have from geometric control
-        ### FIXME: Do we want lazy imports?
+        # TODO: Copy the working functionality that we have from geometric control
+        # FIXME: Do we want lazy imports?
         try:
             import matplotlib.pyplot as plt
         except ImportError as e:
             raise ImportError("matplotlib is required for plotting polytopes.") from e
+        # FIXME: This is a placeholder: should be moved to a config file
+        cfg, _plot_facet_3d = {'RTOL': 1e-5, 'ATOL': 1e-8}, lambda V, ax_lims, color, has_border, alpha, ax: ax  # Placeholder
+        # FIXME: This is more 'pseudo-code' for now, but I think this is the correct implementation
+        if ax is not None:
+            if ax.name == '3d' and self.n != 3 or ax.name != '3d' and self.n == 3:
+                raise DimensionError("The dimension of the polytope does not match the dimension of the provided axes 'ax'")
+            fig, ax = None, ax
+            if ax_lims is not None:
+                ax_lims = [eval(f'ax.get_{dim}lim()') for dim in ['x', 'y', 'z'][:self.n]]
+        else:
+            if self.n in {1, 2}:
+                fig, ax = plt.subplots()
+            elif self.n == 3:
+                fig = plt.figure()
+                ax = fig.add_subplot(projection='3d')
+            else:
+                raise DimensionError("Can only plot polytopes in 1D, 2D, or 3D")
+        match self.n:
+            case 1:
+                raise NotImplementedError
+            case 2:
+                raise NotImplementedError
+            case 3:
+                if ax_lims is None:
+                    # FIXME: What if one of the bounds is zero? Then scaling by 0.9 or 1.1 does not make sense...
+                    # FIXME: For readability, should we introduce the variables `scale_away` and `scale_towards` instead of using (1 - offset) and (1 + offset) directly?
+                    ax_lims = [((1 - offset) * lims[0] if lims[0] > 0 else (1 + offset) * lims[0], (1 + offset) * lims[1] if lims[1] > 0 else (1 - offset) * lims[1]) for elem in self.bbox().bounds for lims in elem]  # Get the axis limits from the bounding box of the polytope
+                # Loop over every half-space and plot the corresponding facet
+                for idx in range(self.A.shape[1]):
+                    V = self.verts[np.isclose(self.A[idx, :] @ self.verts - self.b[idx], 0, rtol=cfg.RTOL, atol=cfg.ATOL)]
+                    # FIXME: This should not return axis, right? It should just modify it in place? Oh but what if no axis is provided?
+                    ax = _plot_facet_3d(V, ..., ax_lims=ax_lims, color=color, has_border=has_border, alpha=alpha, ax=ax)  # Sort the vertices based on `signed_angle`, and plot them as a patch
+            case _:
+                raise DimensionError("Can only plot polytopes in 1D, 2D, or 3D")
+        exec(f'ax.set_{dim}lim({ax_lims[dim][0]}, {ax_lims[dim][1]})' for dim in ['x', 'y', 'z'][:self.n])
+        if show:
+            plt.show()
         raise NotImplementedError
 
 
