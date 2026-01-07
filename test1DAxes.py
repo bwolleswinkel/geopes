@@ -40,6 +40,7 @@ class Axes1D(Axes):
         self._setup_1d_appearance()
         # Setup y-limit control
         self._setup_ylimit_control()
+        self.name = '1d'
     
     def _setup_1d_appearance(self):
         """Configure the axes to appear as a 1D plot"""
