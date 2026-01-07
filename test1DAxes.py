@@ -41,6 +41,7 @@ class Axes1D(Axes):
         # Setup y-limit control
         self._setup_ylimit_control()
         self.name = '1d'
+        # FIXME: Also make sure that 'set_ylim' cannot be called externally to change the limits
     
     def _setup_1d_appearance(self):
         """Configure the axes to appear as a 1D plot"""
