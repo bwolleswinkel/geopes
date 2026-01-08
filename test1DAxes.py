@@ -18,7 +18,7 @@ class Axes1D(Axes):
     
     """
     
-    def __init__(self, fig, *args, fixed_ylim=(-1, 1), **kwargs):
+    def __init__(self, fig, fixed_ylim, *args, **kwargs):
         """Initialize the Axes1D instance.
         
         Parameters:
@@ -40,6 +40,8 @@ class Axes1D(Axes):
         self._setup_1d_appearance()
         # Setup y-limit control
         self._setup_ylimit_control()
+        # Remove the aspect ratio constraint - let matplotlib handle the height naturally
+        self.set_aspect('equal', adjustable='box')
         self.name = '1d'
         # FIXME: Also make sure that 'set_ylim' cannot be called externally to change the limits
     
@@ -100,6 +102,25 @@ class Axes1D(Axes):
             y = np.zeros_like(x)
         return super().scatter(x, y, **kwargs)
     
+    def legend(self, *args, **kwargs):
+        """Override legend method to position it at a fixed height above the x-axis"""
+        # Use axes coordinates (0-1 range) instead of data coordinates
+        # This ensures consistent positioning regardless of fixed_ylim values
+        legend_y = 0.55
+        
+        # Set default legend position if not specified
+        if 'bbox_to_anchor' not in kwargs and 'loc' not in kwargs:
+            kwargs['bbox_to_anchor'] = (0.02, legend_y)
+            kwargs['bbox_transform'] = self.transAxes  # Use axes coordinates
+            kwargs['loc'] = 'lower left'
+        elif 'loc' in kwargs and kwargs['loc'] == 'upper left':
+            # Keep your existing behavior but with fixed y-position in axes coordinates
+            kwargs['bbox_to_anchor'] = (0.02, legend_y)
+            kwargs['bbox_transform'] = self.transAxes  # Use axes coordinates
+            kwargs['loc'] = 'lower left'
+        
+        return super().legend(*args, **kwargs)
+    
     def set_ylim(self, *args, **kwargs):
         """Override set_ylim to maintain fixed limits"""
         if not self._updating_ylim:
@@ -122,7 +143,7 @@ class Axes1D(Axes):
         self._updating_ylim = False
 
 
-def add_1d_subplot(fig, *args, fixed_ylim=(-0.1, 0.1), **kwargs):
+def add_1d_subplot(fig, *args, fixed_ylim=(-2, 2), **kwargs):
     """Create and add an Axes1D subplot to a figure.
     
     Parameters:
@@ -142,12 +163,20 @@ def add_1d_subplot(fig, *args, fixed_ylim=(-0.1, 0.1), **kwargs):
         The created 1D axes instance
     
     """
-    # Create Axes1D directly using subplot positioning
     # Default to 111 if no args provided
     if not args:
         args = (111,)
     
-    ax = Axes1D(fig, *args, fixed_ylim=fixed_ylim, **kwargs)
+    # Use add_subplot instead of add_axes for proper subplot behavior
+    ax = fig.add_subplot(*args, projection=None)
+    
+    # Replace the default axes with our custom Axes1D
+    # Get the position and remove the old axes
+    pos = ax.get_position()
+    fig.delaxes(ax)
+    
+    # Create new Axes1D with the same position
+    ax = Axes1D(fig, fixed_ylim, pos, **kwargs)
     fig.add_axes(ax)
     
     return ax
