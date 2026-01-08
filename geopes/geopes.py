@@ -1363,6 +1363,7 @@ def projection(points: Polytope | ArrayLike, proj_space: list[int] | Subspace, k
     ### FIXME: In `MPT3 Toolbox`, they also talk about projecting a point on the k-th facet (which is probably the fase?) of a polyhedron, https://www.mpt3.org/pmwiki.php/Main/HowTos
     
     """
+    # FIXME: If the option `keep_dims` is False, can we simply use np.linalg.lstsq to compute the coordinates in the subspace basis?
     raise NotImplementedError
 
 
