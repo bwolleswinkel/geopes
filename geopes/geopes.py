@@ -70,7 +70,11 @@
 
 ### TODO: Check out the website 'zenodo' for having a doi for the package
 
-### FIXME: What convention do we want for seperate constructors? Do we want to use classmethods, like pandas? So we can have:
+### TODO: Check out `Voronoi diagrams' and `Delaunay triangulations'
+# FROM: https://en.wikipedia.org/wiki/Voronoi_diagram
+# FROM: https://en.wikipedia.org/wiki/Delaunay_triangulation
+
+### FIXME: What convention do we want for separate constructors? Do we want to use classmethods, like pandas? So we can have:
     poly = geo.poly_from_verts(verts)  # More similar to numpy?
     poly = geo.verts_to_poly(verts)
     poly = geo.verts_2_poly(verts)

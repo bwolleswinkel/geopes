@@ -40,8 +40,6 @@ class Axes1D(Axes):
         self._setup_1d_appearance()
         # Setup y-limit control
         self._setup_ylimit_control()
-        # Remove the aspect ratio constraint - let matplotlib handle the height naturally
-        self.set_aspect('equal', adjustable='box')
         self.name = '1d'
         # FIXME: Also make sure that 'set_ylim' cannot be called externally to change the limits
     
