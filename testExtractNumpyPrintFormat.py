@@ -15,7 +15,7 @@ import numpy as np
 int_rows, int_cols = 3, 10
 
 # Set the options for the floating array
-float_rows, float_cols = 2, 100
+float_rows, float_cols = 5, 100
 
 # Set the options for ellipsoid
 n = 5
@@ -143,7 +143,7 @@ def ellipsoid_semidef_repr(c: np.ndarray, Q: np.ndarray, include_tabs: bool = Tr
 int_array_A, int_array_b = np.random.rand(int_rows, int_cols), np.random.rand(int_rows) * 1E-6
 
 # Create a floating-point array
-float_array_verts = np.random.rand(float_rows, float_cols) * 1E-6
+float_array_verts = np.random.rand(float_rows, float_cols)
 
 # Create a positive semidefinite matrix for the ellipsoid
 # c, Q_root = np.random.randint(1000, 2000, size=n), np.random.randint(1000, 2000, size=(n, n))
