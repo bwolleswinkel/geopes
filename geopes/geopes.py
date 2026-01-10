@@ -635,7 +635,7 @@ class Polytope(ConvexRegion):
                 while point not in self:
                     point = bbox.sample(seed, density)
                 return point
-            case 'hit-and-run':
+            case 'hit_and_run':
                 ### TODO: Check out "Convergence properties of hit–and–run samplers", Bélisle et al. (1998)
                 raise NotImplementedError
             case _:
