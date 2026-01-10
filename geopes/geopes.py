@@ -5,6 +5,10 @@
 ### TODO: Check out package 'polytope', https://tulip-control.github.io/polytope/
 ### TODO: Check out package 'pypolycontain', https://pypolycontain.readthedocs.io/en/latest/index.html
 ### TODO: Check out repository 'pytope', https://github.com/heirung/pytope
+### TODO: Check out the package `pypoman`, https://github.com/stephane-caron/pypoman
+### TODO: Check out the package `pypolymake`, https://gitlab.com/videlec/pypolymake, which is a Python interface to `polymake` | Not under active development anymore
+### TODO: check out the package `pplpy`, https://github.com/sagemath/pplpy | Not sure what this package does exactly
+
 ### TODO: Check out paper "LazySets.jl: Scalable Symbolic-Numeric Set Computations" Juliacon (2021), https://juliacon.github.io/proceedings-papers/jcon.00097/10.21105.jcon.00097.pdf#page1
 ### TODO: Check out d(ouble)under/numerical Python methods "3.3.8. Emulating numeric types", https://docs.python.org/3/reference/datamodel.html
 ### TODO: Check out the repository "Remote Tube-based MPC for Tracking Over Lossy Networks" (which has multiple implementations of MRPI sets), https://github.com/EricssonResearch/Robust-Tracking-MPC-over-Lossy-Networks/blob/main/src/LinearMPCOverNetworks/utils_polytope.py
