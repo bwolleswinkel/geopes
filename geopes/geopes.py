@@ -599,6 +599,8 @@ class Polytope(ConvexRegion):
     
     def bbox(self, in_place: bool = False) -> Box:
         """Compute the bounding box of the polytope.
+
+        ### FIXME: We should probably call this `to_bbox()` instead.
         
         Parameters
         ----------
@@ -1803,6 +1805,11 @@ class Ellipsoid(ConvexRegion):
     @property
     def theta(self) -> ArrayLike:
         """Compute the angle of the ellipsoid.
+
+        ### TODO: Look into the number of angles needed to define this rotation uniquely: according to Gemini, it's n * (n - 2) / 2, so n=1 -> 0, n=2 -> 1, n=3 -> 3, n=4 -> 6, seems to check out
+        ### TODO: Also look into 'yaw', 'pitch', 'roll', and euler angles: how do we canonically want to represent orientation?
+        ### FIXME: There is also such things as 'alibi' rotation (active, point changes; this we want to consider) or 'alias' rotation (passive, frame changes)
+        ### FIXME: Evidently, we can also, canonically, represent this rotation as a single number (an eigenvalue of R), and a rotation axis (the eigenvector of R, which one?) NO: actually only valid for n=3
         
         """
         if self._theta is None:
@@ -1813,6 +1820,8 @@ class Ellipsoid(ConvexRegion):
     def R(self) -> ArrayLike:
         """Compute the radii of the ellipsoid.
         
+        ### FIXME: This is a really bad name. I would reserve R for the rotation matrix.
+
         """
         if self._R is None:
             ...
