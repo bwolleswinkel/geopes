@@ -187,6 +187,39 @@ def plot_plane(ax: Axes, plane_normal: ArrayLike, point: ArrayLike = None, **kwa
     update_plane()
 
 
+def plot_box(ax: Axes, **kwargs) -> None:
+    """Plot an indefinite box in 3D, centered at the origin with edges from -inf to inf"""
+    from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+    
+    def update_box():
+        xlim, ylim, zlim = ax.get_xlim(), ax.get_ylim(), ax.get_zlim()
+        corners = np.array([[xlim[0], ylim[0], zlim[0]],
+                            [xlim[1], ylim[0], zlim[0]],
+                            [xlim[1], ylim[1], zlim[0]],
+                            [xlim[0], ylim[1], zlim[0]],
+                            [xlim[0], ylim[0], zlim[1]],
+                            [xlim[1], ylim[0], zlim[1]],
+                            [xlim[1], ylim[1], zlim[1]],
+                            [xlim[0], ylim[1], zlim[1]]])
+        
+        faces = [[corners[j] for j in [0, 1, 2, 3]],
+                 [corners[j] for j in [4, 5, 6, 7]],
+                 [corners[j] for j in [0, 1, 5, 4]],
+                 [corners[j] for j in [2, 3, 7, 6]],
+                 [corners[j] for j in [1, 2, 6, 5]],
+                 [corners[j] for j in [4, 7, 3, 0]]]
+        
+        box_collection.set_verts(faces)
+    
+    box_collection = Poly3DCollection([], linewidths=0, **kwargs)
+    ax.add_collection3d(box_collection)
+    
+    for callback in ['xlim_changed', 'ylim_changed', 'zlim_changed']:
+        ax.callbacks.connect(callback, lambda _: update_box())
+    
+    update_box()
+
+
 if __name__ == "__main__":
 
     # ------ 2D LINE ------
@@ -211,10 +244,20 @@ if __name__ == "__main__":
     fig = plt.figure()
     ax = fig.add_subplot(projection='3d')
     plot_line(ax, line=[1, 2, 0], color='red', linewidth=2)
-    plot_plane(ax, plane_normal=np.array([1, 1, 1]), color='orange', alpha=0.5)
+    plot_plane(ax, plane_normal=np.array([1, 1, 1]), color='cyan', alpha=0.5)
     ax.set_xlim(-3, 3)
     ax.set_ylim(-3, 3)
     ax.set_zlim(-10, 10)
+
+    # ------ 3D BOX ------
+    fig = plt.figure()
+    ax = fig.add_subplot(projection='3d')
+    plot_plane(ax, plane_normal=np.array([1, 1, 1]), color='red', alpha=0.5)
+    plot_box(ax, color='orange', alpha=0.2, label=r"$\mathcal{V} = \mathbb{R}^3$")
+    ax.set_xlim(-3, 3)
+    ax.set_ylim(-3, 3)
+    ax.set_zlim(-10, 10)
+    ax.legend(loc='upper left')
 
     # Show plots
     plt.show()
